@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Dostify",
+    "slug": "Dostify",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/android/mipmap-xxxhdpi/ic_launcher.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/android/mipmap-xxxhdpi/ic_launcher.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android/mipmap-xxxhdpi/ic_launcher.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.ai.dostify"
+    },
+    "web": {
+      "favicon": "./assets/android/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ce4ca562-cfa3-48ca-abaf-b033adaafeae"
+      }
+    }
+  }
+}
