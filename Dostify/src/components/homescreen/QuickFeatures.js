@@ -16,7 +16,7 @@ const QuickFeatures = React.memo(({ features }) => (
         key={index}
         style={styles.quickFeatureItem}
         activeOpacity={0.7}
-        onPress={() => console.log(`Pressed ${feature.name}`)} // Keep onPress logic or pass handlers
+        onPress={() => console.log(`Pressed ${feature.name}`)}
       >
         <View style={[styles.quickFeatureIconContainer, { backgroundColor: feature.bgColor }]}>
           <MaterialCommunityIcons name={feature.icon} size={26} color={feature.color} />

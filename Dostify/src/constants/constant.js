@@ -1,14 +1,13 @@
 export const config = {
-    BACKEND_SERVER_URL : "https://server-0xro.onrender.com",
-    // BACKEND_SERVER_URL: "http://localhost:8000",
+    // BACKEND_SERVER_URL : "https://server-0xro.onrender.com",
+    BACKEND_SERVER_URL: "http://localhost:8000",
 };
 
 export const STORAGE_KEYS = {
     USERTOKEN: "userToken",
 };
 export const APP_INFO = {
-    NAME: 'Dostify', // Replace with your actual app name if different
-    // ... other app info you might need like VERSION, etc.
+    NAME: 'Dostify', 
   };
 
 import { Platform } from 'react-native';

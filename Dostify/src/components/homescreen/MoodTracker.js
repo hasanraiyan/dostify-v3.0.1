@@ -18,7 +18,7 @@ const MoodTracker = React.memo(({ moodOptions, selectedMood, setSelectedMood }) 
             styles.moodOption,
             {
               backgroundColor:
-                selectedMood === index ? mood.color + '20' : COLORS.lightGrey, // Opacity added
+                selectedMood === index ? mood.color + '20' : COLORS.lightGrey,
             },
           ]}
           activeOpacity={0.7}
@@ -40,8 +40,7 @@ const MoodTracker = React.memo(({ moodOptions, selectedMood, setSelectedMood }) 
 ));
 
 const styles = StyleSheet.create({
-  // NOTE: sectionContainer & sectionTitle are duplicated here.
-  // Consider creating a reusable <Section> component or a shared style object later.
+
   sectionContainer: {
     marginBottom: SPACING.XLARGE,
   },
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.XLARGE,
     fontWeight: FONT_WEIGHT.BOLD,
     color: COLORS.darkGrey,
-    marginBottom: SPACING.MEDIUM, // Added margin back from original MoodTracker placement
+    marginBottom: SPACING.MEDIUM, 
   },
   moodContainer: {
     flexDirection: 'row',

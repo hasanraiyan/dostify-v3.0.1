@@ -19,7 +19,7 @@ const MainFeatures = React.memo(({ features }) => (
           key={index}
           style={styles.featureCard}
           activeOpacity={0.8}
-          onPress={() => console.log(`Pressed ${feature.title}`)} // Keep onPress or pass handler
+          onPress={() => console.log(`Pressed ${feature.title}`)} 
         >
           <LinearGradient
             colors={feature.gradient}
@@ -52,7 +52,6 @@ const MainFeatures = React.memo(({ features }) => (
 ));
 
 const styles = StyleSheet.create({
-  // NOTE: sectionContainer & sectionTitle are duplicated here.
   sectionContainer: {
     marginBottom: SPACING.XLARGE,
   },
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.XLARGE,
     fontWeight: FONT_WEIGHT.BOLD,
     color: COLORS.darkGrey,
-    marginBottom: SPACING.MEDIUM, // Added margin back
+    marginBottom: SPACING.MEDIUM,
   },
   mainFeaturesContainer: {
     flexDirection: 'row',
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   featureCard: {
-    width: (width - SPACING.LARGE * 2 - SPACING.MEDIUM) / 2, // Calculation using width
+    width: (width - SPACING.LARGE * 2 - SPACING.MEDIUM) / 2, 
     backgroundColor: COLORS.white,
     borderRadius: 12,
     marginBottom: SPACING.MEDIUM,

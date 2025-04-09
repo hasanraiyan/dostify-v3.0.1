@@ -765,131 +765,547 @@ export default function ChatScreen() {
   );
 }
 
-// --- Styles ---
-
 // Markdown Styles
 const markdownStyles = StyleSheet.create({
-  body: { fontSize: baseFontSize, color: theme.textDark, lineHeight: baseFontSize * 1.45 },
-  text: { fontSize: baseFontSize, color: theme.textDark, lineHeight: baseFontSize * 1.45 },
-  paragraph: { marginTop: 0, marginBottom: spacingUnit * 1 },
-  heading1: { fontSize: 24, fontWeight: 'bold', color: theme.primary, marginBottom: spacingUnit * 1.5, marginTop: spacingUnit * 2, borderBottomWidth: 1, borderColor: theme.border, paddingBottom: spacingUnit * 0.75 },
-  heading2: { fontSize: 20, fontWeight: 'bold', color: theme.textDark, marginBottom: spacingUnit * 1.25, marginTop: spacingUnit * 1.75 },
-  heading3: { fontSize: 18, fontWeight: '600', color: theme.textDark, marginBottom: spacingUnit * 1, marginTop: spacingUnit * 1.5 },
-  link: { color: theme.link, textDecorationLine: 'underline' },
-  mail_link: { color: theme.link, textDecorationLine: 'underline' },
-  code_block: { backgroundColor: '#f5f5f5', padding: spacingUnit * 1.5, borderRadius: 4, fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace', marginVertical: spacingUnit * 1.25, fontSize: 13, borderWidth: StyleSheet.hairlineWidth, borderColor: theme.border },
-  code_inline: { backgroundColor: '#f5f5f5', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace', paddingHorizontal: spacingUnit * 0.6, paddingVertical: spacingUnit * 0.25, borderRadius: 3, fontSize: 13, color: theme.textDark },
-  fence: { backgroundColor: '#f5f5f5', padding: spacingUnit * 1.5, borderRadius: 4, fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace', marginVertical: spacingUnit * 1.25, fontSize: 13, borderWidth: StyleSheet.hairlineWidth, borderColor: theme.border },
-  bullet_list: { marginVertical: spacingUnit * 1 },
-  ordered_list: { marginVertical: spacingUnit * 1 },
-  list_item: { marginBottom: spacingUnit * 1.25, flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'wrap' },
-  bullet_list_icon: { color: theme.textDark, marginRight: spacingUnit * 1.25, fontSize: Platform.OS === 'ios' ? 18 : 14, lineHeight: baseFontSize * 1.45, fontWeight: 'bold', marginTop: Platform.OS === 'ios' ? 1 : 4 },
-  ordered_list_icon: { color: theme.textDark, marginRight: spacingUnit * 1.25, fontWeight: 'bold', lineHeight: baseFontSize * 1.45, minWidth: 18, textAlign: 'right', marginTop: Platform.OS === 'ios' ? 0 : 1 },
-  blockquote: { backgroundColor: '#f9f9f9', borderLeftColor: theme.border, borderLeftWidth: 5, paddingLeft: spacingUnit * 1.75, marginLeft: 0, marginVertical: spacingUnit * 1.25, paddingVertical: spacingUnit * 1 },
-  strong: { fontWeight: 'bold' },
-  em: { fontStyle: 'italic' },
-  del: { textDecorationLine: 'line-through' },
-  table: { borderWidth: 1, borderColor: theme.border, borderRadius: 4, marginVertical: spacingUnit * 1.25 },
-  th: { padding: spacingUnit * 1, backgroundColor: '#f7f7f7', fontWeight: 'bold', borderBottomWidth: 1, borderColor: theme.border, borderRightWidth: 1 },
-  tr: { flexDirection: 'row', borderBottomWidth: 1, borderColor: theme.border },
-  td: { padding: spacingUnit * 1, borderRightWidth: 1, borderColor: theme.border, flexShrink: 1 },
-  hr: { backgroundColor: theme.border, height: 1, marginVertical: spacingUnit * 2 },
-  image: { resizeMode: 'contain', marginVertical: spacingUnit * 1, alignSelf: 'flex-start', maxWidth: '100%' },
+  body: {
+    fontSize: baseFontSize,
+    color: theme.textDark,
+    lineHeight: baseFontSize * 1.45,
+  },
+  text: {
+    fontSize: baseFontSize,
+    color: theme.textDark,
+    lineHeight: baseFontSize * 1.45,
+  },
+  paragraph: {
+    marginTop: 0,
+    marginBottom: spacingUnit * 1,
+  },
+  heading1: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: theme.primary,
+    marginBottom: spacingUnit * 1.5,
+    marginTop: spacingUnit * 2,
+    borderBottomWidth: 1,
+    borderColor: theme.border,
+    paddingBottom: spacingUnit * 0.75,
+  },
+  heading2: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: theme.textDark,
+    marginBottom: spacingUnit * 1.25,
+    marginTop: spacingUnit * 1.75,
+  },
+  heading3: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: theme.textDark,
+    marginBottom: spacingUnit * 1,
+    marginTop: spacingUnit * 1.5,
+  },
+  link: {
+    color: theme.link,
+    textDecorationLine: 'underline',
+  },
+  mail_link: {
+    color: theme.link,
+    textDecorationLine: 'underline',
+  },
+  code_block: {
+    backgroundColor: '#f5f5f5',
+    padding: spacingUnit * 1.5,
+    borderRadius: 4,
+    fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace',
+    marginVertical: spacingUnit * 1.25,
+    fontSize: 13,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: theme.border,
+  },
+  code_inline: {
+    backgroundColor: '#f5f5f5',
+    fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace',
+    paddingHorizontal: spacingUnit * 0.6,
+    paddingVertical: spacingUnit * 0.25,
+    borderRadius: 3,
+    fontSize: 13,
+    color: theme.textDark,
+  },
+  fence: {
+    backgroundColor: '#f5f5f5',
+    padding: spacingUnit * 1.5,
+    borderRadius: 4,
+    fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace',
+    marginVertical: spacingUnit * 1.25,
+    fontSize: 13,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: theme.border,
+  },
+  bullet_list: {
+    marginVertical: spacingUnit * 1,
+  },
+  ordered_list: {
+    marginVertical: spacingUnit * 1,
+  },
+  list_item: {
+    marginBottom: spacingUnit * 1.25,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    flexWrap: 'wrap',
+  },
+  bullet_list_icon: {
+    color: theme.textDark,
+    marginRight: spacingUnit * 1.25,
+    fontSize: Platform.OS === 'ios' ? 18 : 14,
+    lineHeight: baseFontSize * 1.45,
+    fontWeight: 'bold',
+    marginTop: Platform.OS === 'ios' ? 1 : 4,
+  },
+  ordered_list_icon: {
+    color: theme.textDark,
+    marginRight: spacingUnit * 1.25,
+    fontWeight: 'bold',
+    lineHeight: baseFontSize * 1.45,
+    minWidth: 18,
+    textAlign: 'right',
+    marginTop: Platform.OS === 'ios' ? 0 : 1,
+  },
+  blockquote: {
+    backgroundColor: '#f9f9f9',
+    borderLeftColor: theme.border,
+    borderLeftWidth: 5,
+    paddingLeft: spacingUnit * 1.75,
+    marginLeft: 0,
+    marginVertical: spacingUnit * 1.25,
+    paddingVertical: spacingUnit * 1,
+  },
+  strong: {
+    fontWeight: 'bold',
+  },
+  em: {
+    fontStyle: 'italic',
+  },
+  del: {
+    textDecorationLine: 'line-through',
+  },
+  table: {
+    borderWidth: 1,
+    borderColor: theme.border,
+    borderRadius: 4,
+    marginVertical: spacingUnit * 1.25,
+  },
+  th: {
+    padding: spacingUnit * 1,
+    backgroundColor: '#f7f7f7',
+    fontWeight: 'bold',
+    borderBottomWidth: 1,
+    borderColor: theme.border,
+    borderRightWidth: 1,
+  },
+  tr: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: theme.border,
+  },
+  td: {
+    padding: spacingUnit * 1,
+    borderRightWidth: 1,
+    borderColor: theme.border,
+    flexShrink: 1,
+  },
+  hr: {
+    backgroundColor: theme.border,
+    height: 1,
+    marginVertical: spacingUnit * 2,
+  },
+  image: {
+    resizeMode: 'contain',
+    marginVertical: spacingUnit * 1,
+    alignSelf: 'flex-start',
+    maxWidth: '100%',
+  },
 });
 
 // Main Component Styles
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: theme.primary },
-  container: { flex: 1, backgroundColor: theme.background },
+  safeArea: {
+    flex: 1,
+    backgroundColor: theme.primary,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: theme.background,
+  },
   header: {
-    backgroundColor: theme.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingVertical: spacingUnit * 1, paddingHorizontal: spacingUnit * 1.25, elevation: 3,
-    shadowColor: theme.shadowColor, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 2,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + spacingUnit : spacingUnit * 1.5,
+    backgroundColor: theme.primary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: spacingUnit * 1,
+    paddingHorizontal: spacingUnit * 1.25,
+    elevation: 3,
+    shadowColor: theme.shadowColor,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    paddingTop:
+      Platform.OS === 'android'
+        ? StatusBar.currentHeight + spacingUnit
+        : spacingUnit * 1.5,
     minHeight: (Platform.OS === 'android' ? StatusBar.currentHeight : 0) + 56,
   },
-  headerLeft: { flexDirection: 'row', alignItems: 'center', flexShrink: 1, marginRight: spacingUnit * 1.25 },
-  headerRight: { flexDirection: 'row', alignItems: 'center' },
-  headerAvatar: { width: 40, height: 40, borderRadius: 20, marginLeft: spacingUnit * 1, backgroundColor: theme.imagePlaceholderBg },
-  headerInfo: { marginLeft: spacingUnit * 1.25, flexShrink: 1 },
-  headerTitle: { fontSize: headerTitleSize, fontWeight: '600', color: theme.textWhite },
-  headerButton: { padding: spacingUnit * 1, borderRadius: 20 },
-  onlineStatusContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 2 },
-  onlineStatusDot: { width: spacingUnit * 1, height: spacingUnit * 1, borderRadius: spacingUnit * 0.5, marginRight: spacingUnit * 0.6 },
-  onlineStatusText: { fontSize: 12, color: theme.textWhite, opacity: 0.9 },
-  typingIndicatorHeaderContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 2 },
-  typingIndicatorHeaderText: { fontSize: 12, color: theme.textWhite, opacity: 0.9, marginRight: spacingUnit * 0.5 },
-  typingDotsContainerHeader: { flexDirection: 'row', alignItems: 'flex-end', height: 15, marginLeft: 2 },
-  typingDotHeader: { width: 5, height: 5, borderRadius: 2.5, backgroundColor: theme.textWhite, opacity: 0.9, marginHorizontal: 1.5 },
-  messageList: { paddingHorizontal: spacingUnit * 1.25, paddingTop: spacingUnit, flexGrow: 1 },
-  listTopSpacing: { height: spacingUnit * 0.5 },
-  listBottomSpacing: { height: spacingUnit * 1.25 },
-  daySeparator: { flexDirection: 'row', alignItems: 'center', marginVertical: spacingUnit * 2.5, paddingHorizontal: spacingUnit },
-  daySeparatorLine: { flex: 1, height: 1, backgroundColor: 'rgba(0,0,0,0.1)' },
-  dayText: { backgroundColor: theme.systemMessageBg, color: theme.systemMessageText, fontSize: 12, fontWeight: '600', paddingHorizontal: spacingUnit * 1.5, paddingVertical: spacingUnit * 0.6, borderRadius: 16, marginHorizontal: spacingUnit * 1.25, overflow: 'hidden' },
-  messageBubbleContainer: { marginVertical: spacingUnit * 0.5, maxWidth: '85%', alignSelf: 'flex-start' },
-  userMessageContainer: { alignSelf: 'flex-end' },
-  messageBubble: { paddingVertical: spacingUnit * 0.85, paddingHorizontal: spacingUnit * 1.35, borderRadius: 12, elevation: 1, shadowColor: '#000', shadowOffset: { width: 0, height: 0.5 }, shadowOpacity: 0.15, shadowRadius: 1.5, minWidth: 60 },
-  userMessage: { backgroundColor: theme.userMessageBg, borderTopRightRadius: 4, borderBottomRightRadius: 12, borderTopLeftRadius: 12, borderBottomLeftRadius: 12 },
-  userImageMessage: { backgroundColor: theme.userMessageBg, padding: spacingUnit * 0.6, borderTopRightRadius: 4, borderBottomRightRadius: 12, borderTopLeftRadius: 12, borderBottomLeftRadius: 12 },
-  otherMessage: { backgroundColor: theme.otherMessageBg, flexDirection: 'row', borderTopLeftRadius: 4, borderBottomLeftRadius: 12, borderTopRightRadius: 12, borderBottomRightRadius: 12 },
-  avatarContainer: { marginRight: spacingUnit * 1, alignSelf: 'flex-end', marginBottom: 0 },
-  avatar: { width: 30, height: 30, borderRadius: 15, backgroundColor: theme.imagePlaceholderBg },
-  messageContent: { flexShrink: 1, paddingBottom: spacingUnit * 0.6 },
-  messageImage: { width: 220, height: 220, borderRadius: 6, resizeMode: 'cover', alignSelf: 'flex-start', backgroundColor: theme.imagePlaceholderBg },
-  imageWithTextMargin: { marginBottom: spacingUnit * 1 },
-  messageText: { fontSize: baseFontSize, color: theme.textDark, lineHeight: baseFontSize * 1.4 },
-  messageFooter: { flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', marginTop: spacingUnit * 0.75, opacity: 0.9 },
-  timestamp: { fontSize: smallFontSize, color: theme.timestampText, marginRight: spacingUnit * 0.5 },
-  userTimestamp: {}, otherTimestamp: {},
-  readStatusContainer: { marginLeft: 2 },
-  systemErrorBubbleContainer: { alignSelf: 'center', marginVertical: spacingUnit * 1, maxWidth: '90%' },
-  systemErrorBubble: {
-     backgroundColor: '#FFF5F5', borderRadius: 8, paddingVertical: spacingUnit * 1, paddingHorizontal: spacingUnit * 1.5,
-     flexDirection: 'row', alignItems: 'center', borderLeftWidth: 4, borderLeftColor: theme.errorBg,
-     elevation: 1, shadowColor: '#000', shadowOffset: { width: 0, height: 0.5 }, shadowOpacity: 0.1, shadowRadius: 1,
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexShrink: 1,
+    marginRight: spacingUnit * 1.25,
   },
-  systemErrorText: { fontSize: 13, color: theme.textDark, flexShrink: 1, lineHeight: 13 * 1.4 },
-  keyboardAvoidingView: { width: '100%' }, // Needed for KAV behavior sometimes
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginLeft: spacingUnit * 1,
+    backgroundColor: theme.imagePlaceholderBg,
+  },
+  headerInfo: {
+    marginLeft: spacingUnit * 1.25,
+    flexShrink: 1,
+  },
+  headerTitle: {
+    fontSize: headerTitleSize,
+    fontWeight: '600',
+    color: theme.textWhite,
+  },
+  headerButton: {
+    padding: spacingUnit * 1,
+    borderRadius: 20,
+  },
+  onlineStatusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  onlineStatusDot: {
+    width: spacingUnit * 1,
+    height: spacingUnit * 1,
+    borderRadius: spacingUnit * 0.5,
+    marginRight: spacingUnit * 0.6,
+  },
+  onlineStatusText: {
+    fontSize: 12,
+    color: theme.textWhite,
+    opacity: 0.9,
+  },
+  typingIndicatorHeaderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  typingIndicatorHeaderText: {
+    fontSize: 12,
+    color: theme.textWhite,
+    opacity: 0.9,
+    marginRight: spacingUnit * 0.5,
+  },
+  typingDotsContainerHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    height: 15,
+    marginLeft: 2,
+  },
+  typingDotHeader: {
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
+    backgroundColor: theme.textWhite,
+    opacity: 0.9,
+    marginHorizontal: 1.5,
+  },
+  messageList: {
+    paddingHorizontal: spacingUnit * 1.25,
+    paddingTop: spacingUnit,
+    flexGrow: 1,
+  },
+  listTopSpacing: {
+    height: spacingUnit * 0.5,
+  },
+  listBottomSpacing: {
+    height: spacingUnit * 1.25,
+  },
+  daySeparator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: spacingUnit * 2.5,
+    paddingHorizontal: spacingUnit,
+  },
+  daySeparatorLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'rgba(0,0,0,0.1)',
+  },
+  dayText: {
+    backgroundColor: theme.systemMessageBg,
+    color: theme.systemMessageText,
+    fontSize: 12,
+    fontWeight: '600',
+    paddingHorizontal: spacingUnit * 1.5,
+    paddingVertical: spacingUnit * 0.6,
+    borderRadius: 16,
+    marginHorizontal: spacingUnit * 1.25,
+    overflow: 'hidden', // Added this based on borderRadius usage on Text
+  },
+  messageBubbleContainer: {
+    marginVertical: spacingUnit * 0.5,
+    maxWidth: '85%',
+    alignSelf: 'flex-start',
+  },
+  userMessageContainer: {
+    alignSelf: 'flex-end',
+  },
+  messageBubble: {
+    paddingVertical: spacingUnit * 0.85,
+    paddingHorizontal: spacingUnit * 1.35,
+    borderRadius: 12,
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 0.5 },
+    shadowOpacity: 0.15,
+    shadowRadius: 1.5,
+    minWidth: 60,
+  },
+  userMessage: {
+    backgroundColor: theme.userMessageBg,
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 12,
+    borderTopLeftRadius: 12,
+    borderBottomLeftRadius: 12,
+  },
+  userImageMessage: {
+    backgroundColor: theme.userMessageBg,
+    padding: spacingUnit * 0.6,
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 12,
+    borderTopLeftRadius: 12,
+    borderBottomLeftRadius: 12,
+  },
+  otherMessage: {
+    backgroundColor: theme.otherMessageBg,
+    flexDirection: 'row', // Ensure content (avatar + text bubble) is row
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 12,
+    borderTopRightRadius: 12,
+    borderBottomRightRadius: 12,
+  },
+  avatarContainer: {
+    marginRight: spacingUnit * 1,
+    alignSelf: 'flex-end', // Align avatar to the bottom of the message row
+    marginBottom: 0, // Adjust if needed based on bubble padding/timestamp
+  },
+  avatar: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: theme.imagePlaceholderBg,
+  },
+  messageContent: {
+    flexShrink: 1, // Allow text content to shrink if needed
+    paddingBottom: spacingUnit * 0.6, // Space for timestamp below text/image
+  },
+  messageImage: {
+    width: 220,
+    height: 220,
+    borderRadius: 6,
+    resizeMode: 'cover',
+    alignSelf: 'flex-start', // Keep image aligned left within bubble
+    backgroundColor: theme.imagePlaceholderBg,
+  },
+  imageWithTextMargin: {
+    marginBottom: spacingUnit * 1, // Add space between image and text if both exist
+  },
+  messageText: {
+    fontSize: baseFontSize,
+    color: theme.textDark,
+    lineHeight: baseFontSize * 1.4,
+  },
+  messageFooter: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: spacingUnit * 0.75,
+    opacity: 0.9,
+  },
+  timestamp: {
+    fontSize: smallFontSize,
+    color: theme.timestampText,
+    marginRight: spacingUnit * 0.5,
+  },
+  userTimestamp: {
+    // Specific overrides for user timestamp style if needed
+  },
+  otherTimestamp: {
+    // Specific overrides for other user timestamp style if needed
+  },
+  readStatusContainer: {
+    marginLeft: 2,
+  },
+  systemErrorBubbleContainer: {
+    alignSelf: 'center',
+    marginVertical: spacingUnit * 1,
+    maxWidth: '90%',
+  },
+  systemErrorBubble: {
+    backgroundColor: '#FFF5F5',
+    borderRadius: 8,
+    paddingVertical: spacingUnit * 1,
+    paddingHorizontal: spacingUnit * 1.5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderLeftWidth: 4,
+    borderLeftColor: theme.errorBg,
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 0.5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+  },
+  systemErrorText: {
+    fontSize: 13,
+    color: theme.textDark,
+    flexShrink: 1,
+    lineHeight: 13 * 1.4,
+  },
+  keyboardAvoidingView: {
+    width: '100%', // Needed for KAV behavior sometimes
+  },
   inputArea: {
-    flexDirection: 'row', paddingVertical: spacingUnit * 1, paddingHorizontal: spacingUnit * 0.75,
-    backgroundColor: theme.inputAreaBg, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.border,
+    flexDirection: 'row',
+    paddingVertical: spacingUnit * 1,
+    paddingHorizontal: spacingUnit * 0.75,
+    backgroundColor: theme.inputAreaBg,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: theme.border,
     alignItems: 'flex-end', // Align items like input and send button to bottom
   },
   inputContainer: {
-    flex: 1, flexDirection: 'row', backgroundColor: theme.inputBg, borderRadius: 22,
-    paddingHorizontal: spacingUnit * 0.5, alignItems: 'center', marginRight: spacingUnit * 0.75,
-    minHeight: 44, maxHeight: 120, borderWidth: StyleSheet.hairlineWidth, borderColor: theme.border,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: theme.inputBg,
+    borderRadius: 22,
+    paddingHorizontal: spacingUnit * 0.5,
+    alignItems: 'center', // Center items vertically within the container
+    marginRight: spacingUnit * 0.75,
+    minHeight: 44,
+    maxHeight: 120, // Allow input to grow
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: theme.border,
   },
-  inputContainerDisabled: { backgroundColor: '#F8F8F8' },
+  inputContainerDisabled: {
+    backgroundColor: '#F8F8F8', // Lighter gray when disabled
+  },
   input: {
-    flex: 1, paddingHorizontal: spacingUnit * 1.25, fontSize: inputFontSize, color: theme.textDark,
-    paddingVertical: Platform.OS === 'ios' ? spacingUnit * 1.2 : spacingUnit * 0.8,
-    textAlignVertical: 'center',
+    flex: 1,
+    paddingHorizontal: spacingUnit * 1.25,
+    fontSize: inputFontSize,
+    color: theme.textDark,
+    paddingTop: Platform.OS === 'ios' ? spacingUnit * 1.2 : spacingUnit * 0.8, // Adjust padding for vertical centering
+    paddingBottom: Platform.OS === 'ios' ? spacingUnit * 1.2 : spacingUnit * 0.8, // Adjust padding for vertical centering
+    textAlignVertical: 'center', // Helps on Android
   },
-  inputDisabled: { color: theme.textLight },
-  emojiButton: { padding: spacingUnit * 1, marginLeft: spacingUnit * 0.25 },
-  attachmentButton: { padding: spacingUnit * 1 },
-  disabledButton: { opacity: 0.4 },
+  inputDisabled: {
+    color: theme.textLight,
+  },
+  emojiButton: {
+    padding: spacingUnit * 1,
+    marginLeft: spacingUnit * 0.25, // Small space before emoji button
+  },
+  attachmentButton: {
+    padding: spacingUnit * 1,
+  },
+  disabledButton: {
+    opacity: 0.4, // Standard disabled opacity
+  },
   sendButton: {
-    width: 44, height: 44, borderRadius: 22, justifyContent: 'center', alignItems: 'center',
-    backgroundColor: theme.primary, elevation: 1, shadowColor: theme.shadowColor,
-    shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.2, shadowRadius: 1.5,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.primary,
+    elevation: 1,
+    shadowColor: theme.shadowColor,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
   },
-  sendButtonActive: { backgroundColor: theme.primary, opacity: 1 },
-  sendButtonInactive: { backgroundColor: theme.inactiveSend, opacity: 0.8, elevation: 0 },
-  emptyStateContainer: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: spacingUnit * 5, marginTop: -Dimensions.get('window').height * 0.1 },
-  emptyStateImage: { width: 100, height: 100, marginBottom: spacingUnit * 2.5, opacity: 0.6 },
-  emptyStateText: { fontSize: 16, color: theme.textLight, textAlign: 'center', marginBottom: spacingUnit * 0.5 },
-  emptyStateSubText: { fontSize: 12, color: theme.textLight, textAlign: 'center', opacity: 0.8 },
+  sendButtonActive: {
+    // Default sendButton style is active
+    backgroundColor: theme.primary,
+    opacity: 1,
+  },
+  sendButtonInactive: {
+    backgroundColor: theme.inactiveSend,
+    opacity: 0.8, // Slightly transparent when inactive
+    elevation: 0, // No shadow when inactive
+  },
+  emptyStateContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacingUnit * 5,
+    marginTop: -Dimensions.get('window').height * 0.1, // Pull up slightly
+  },
+  emptyStateImage: {
+    width: 100,
+    height: 100,
+    marginBottom: spacingUnit * 2.5,
+    opacity: 0.6,
+  },
+  emptyStateText: {
+    fontSize: 16,
+    color: theme.textLight,
+    textAlign: 'center',
+    marginBottom: spacingUnit * 0.5,
+  },
+  emptyStateSubText: {
+    fontSize: 12,
+    color: theme.textLight,
+    textAlign: 'center',
+    opacity: 0.8,
+  },
   scrollToBottomButton: {
-    position: 'absolute', bottom: 65, right: 15, backgroundColor: theme.otherMessageBg + 'E6',
-    width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center',
-    elevation: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.2, shadowRadius: 2,
-    zIndex: 10, borderWidth: StyleSheet.hairlineWidth, borderColor: theme.border,
+    position: 'absolute',
+    bottom: 65, // Position above the input area
+    right: 15,
+    backgroundColor: theme.otherMessageBg + 'E6', // Semi-transparent background
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    zIndex: 10, // Ensure it's above the message list
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: theme.border,
   },
   closeButton: {
-      position: 'absolute', top: Platform.OS === 'ios' ? (StatusBar.currentHeight || 0) + 15 : StatusBar.currentHeight + 10,
-      right: 15, padding: spacingUnit, zIndex: 1, backgroundColor: 'rgba(0,0,0,0.4)', borderRadius: 20,
+    position: 'absolute',
+    top:
+      Platform.OS === 'ios'
+        ? (StatusBar.currentHeight || 0) + 15 // Adjust for iOS notch/status bar
+        : StatusBar.currentHeight + 10, // Adjust for Android status bar
+    right: 15,
+    padding: spacingUnit,
+    zIndex: 1, // Ensure it's above header content if overlapping
+    backgroundColor: 'rgba(0,0,0,0.4)', // Semi-transparent background
+    borderRadius: 20,
   },
 });

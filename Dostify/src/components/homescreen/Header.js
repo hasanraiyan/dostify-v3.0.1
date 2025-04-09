@@ -9,21 +9,16 @@ import {
   Image,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-// Import useNavigation hook
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZES, FONT_WEIGHT } from '../../constants/constant';
 
 
-// Remove navigation from props, we'll get it from the hook
 const Header = React.memo(({ notifications }) => {
-  // Get the navigation object using the hook
   const navigation = useNavigation();
 
-  // Calculate height directly, considering status bar
   const headerHeight = Platform.OS === 'android' ? 50 + StatusBar.currentHeight : 88;
 
   const openDrawer = () => {
-    // Ensure navigation and openDrawer exist before calling
     if (navigation && typeof navigation.openDrawer === 'function') {
       navigation.openDrawer();
     } else {
@@ -47,12 +42,11 @@ const Header = React.memo(({ notifications }) => {
         </View>
 
         <View style={styles.headerRight}>
-          {/* Add onPress handler for bell icon if needed */}
           <TouchableOpacity
             style={styles.iconButton}
             activeOpacity={0.6}
-            onPress={() => console.log('Bell icon pressed')} // Example handler
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Increase touch area
+            onPress={() => console.log('Bell icon pressed')} 
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} 
           >
             <MaterialCommunityIcons name="bell-outline" size={26} color={COLORS.primary} />
             {notifications > 0 && (
@@ -61,11 +55,10 @@ const Header = React.memo(({ notifications }) => {
               </View>
             )}
           </TouchableOpacity>
-          {/* Add onPress handler for profile image if needed */}
           <TouchableOpacity
              style={styles.profileButton}
              activeOpacity={0.8}
-             onPress={() => console.log('Profile image pressed')} // Example handler
+             onPress={() => console.log('Profile image pressed')} 
           >
             <Image
               source={{ uri: 'https://avatars.githubusercontent.com/u/143262732?s=400&u=217d826d2c7720ea0984e7d9adef340a521cca84&v=4' }}
@@ -78,13 +71,11 @@ const Header = React.memo(({ notifications }) => {
   );
 });
 
-// --- Styles remain the same ---
 const styles = StyleSheet.create({
   header: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     width: '100%',
     backgroundColor: COLORS.white,
-    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     paddingHorizontal: SPACING.LARGE,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.mediumGrey,
@@ -106,17 +97,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   menuButton: {
-    // Reduced marginRight slightly, let padding handle spacing
     padding: SPACING.SMALL,
     marginRight: SPACING.SMALL,
-    // Ensure enough touch area if icon is small
     justifyContent: 'center',
     alignItems: 'center',
-    width: 40, // Example explicit size
-    height: 40, // Example explicit size
+    width: 40, 
+    height: 40, 
   },
   username: {
-    fontSize: 20, // Slightly adjusted size for balance
+    fontSize: 20,
     fontWeight: FONT_WEIGHT.BOLD,
     color: COLORS.darkGrey,
   },
@@ -127,21 +116,20 @@ const styles = StyleSheet.create({
   iconButton: {
     padding: SPACING.SMALL,
     position: 'relative',
-    // Ensure enough touch area
     justifyContent: 'center',
     alignItems: 'center',
-    width: 40, // Example explicit size
-    height: 40, // Example explicit size
+    width: 40, 
+    height: 40, 
   },
   notificationBadge: {
     position: 'absolute',
-    top: 4, // Adjust position slightly
-    right: 4, // Adjust position slightly
+    top: 4,
+    right: 4,
     backgroundColor: COLORS.danger,
     borderRadius: 8,
-    minWidth: 16, // Use minWidth for single digits
+    minWidth: 16, 
     height: 16,
-    paddingHorizontal: 3, // Add padding for multi-digit numbers
+    paddingHorizontal: 3, 
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1.5,
@@ -151,10 +139,10 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: 9,
     fontWeight: FONT_WEIGHT.SEMIBOLD,
-    lineHeight: 10, // Ensure text fits vertically
+    lineHeight: 10, 
   },
   profileButton: {
-    marginLeft: SPACING.MEDIUM, // Slightly reduced spacing
+    marginLeft: SPACING.MEDIUM,
   },
   profileImage: {
     width: 36,

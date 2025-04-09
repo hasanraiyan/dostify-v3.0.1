@@ -18,21 +18,12 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Load user token from AsyncStorage when app starts
         const loadToken = async () => {
-    console.log("Attempting to log out..."); // New log statement
+    console.log("Attempting to log out...");
     try {
                 const storedToken = await AsyncStorage.getItem(STORAGE_KEYS.USERTOKEN);
                 if (storedToken) {
                     setToken(storedToken);
                     setIsLoggedIn(true);
-                    
-                    // Optionally, fetch user info from the backend using the token
-                    // Uncomment and adjust the API endpoint as needed:
-                    /*
-                    const response = await axios.get(`${config.BACKEND_SERVER_URL}/auth/me`, {
-                        headers: { Authorization: `Bearer ${storedToken}` },
-                    });
-                    setUser(response.data);
-                    */
                     
                     console.log("User auto-signed in with existing token");
                 }
@@ -64,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     // Register new user
     const register = async (username, email, password) => {
         return handleRequest(() =>
-            axios.post(`${config.BACKEND_SERVER_URL}/auth/register`, { username, email, password })
+            axios.post(`${config.BACKEND_SERVER_URL}/auth/register`, { username, email, password, name })
         );
     };
 
@@ -85,7 +76,7 @@ export const AuthProvider = ({ children }) => {
             await AsyncStorage.setItem(STORAGE_KEYS.USERTOKEN, data.token);
             setToken(data.token);
             setIsLoggedIn(true);
-            setUser(data.user); // Assuming the backend returns user info
+            setUser(data.user);
 
             console.log("User logged in:", data.user);
             return data;

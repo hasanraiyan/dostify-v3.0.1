@@ -33,7 +33,6 @@ const PomodoroTimer = React.memo(({ pomodoroActive, remainingTime, togglePomodor
         </Text>
       </View>
     </View>
-    {/* You could add a stop/pause button here if needed */}
   </TouchableOpacity>
 ));
 

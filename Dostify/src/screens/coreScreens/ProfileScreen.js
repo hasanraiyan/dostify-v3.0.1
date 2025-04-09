@@ -100,7 +100,7 @@ const fetchUserData = async () => {
         name: 'Raiyan Hasan',
         username: 'hasanraiyan',
         bio: 'Building Dostify v3. React Native enthusiast exploring AI integration. Passionate about mental wellness technology.',
-        avatarUrl: `https://instagram.fpat3-3.fna.fbcdn.net/v/t51.2885-19/485021332_671214895582314_5411209848968539928_n.jpg?_nc_ht=instagram.fpat3-3.fna.fbcdn.net&_nc_cat=106&_nc_oc=Q6cZ2QHMCe6CJ7kRpoKMdvtyLuQ-7F0xWBLKGH_xayLECznIy7luHu8ndk7yePvD6LxcdTFu6gFMsqMS9xiowRILH8ic&_nc_ohc=0wfP2kQ0tSoQ7kNvgGVJhE4&_nc_gid=EWf13rxeG_1e4970WVKLRQ&edm=ALGbJPMBAAAA&ccb=7-5&oh=00_AYETDDpUfapk-9SzOl1_58tM_rHBDkM2YmcT5-ejrIiJKA&oe=67EC273E&_nc_sid=7d3ac5`,
+        avatarUrl: `https://avatars.githubusercontent.com/u/143262732?s=400&u=217d826d2c7720ea0984e7d9adef340a521cca84&v=4`,
         email: 'raiyan@example.com',
         points: points,
         level: currentLevelData.name,
