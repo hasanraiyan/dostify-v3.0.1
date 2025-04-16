@@ -28,12 +28,12 @@ import * as FileSystem from 'expo-file-system';
 import { useNavigation } from '@react-navigation/native';
 import MarkdownDisplay from 'react-native-markdown-display';
 
-// --- Local Imports ---
-// Adjust these paths based on your project structure
-import { COLORS } from '../../constants/constant'; // Example path
-import useServerStatus from '../../utils/useServerStatus'; // Example path
 
-// --- Theme Definition ---
+
+import { COLORS } from '../../constants/constant';
+import useServerStatus from '../../utils/useServerStatus';
+
+
 const theme = {
   primary: COLORS.LIGHT?.primary || '#075E54',
   primaryLight: '#81C784',
@@ -47,11 +47,11 @@ const theme = {
   inputBg: '#FFFFFF',
   userMessageBg: '#DCF8C6',
   otherMessageBg: '#FFFFFF',
-  systemMessageBg: '#e1f3fb', // Used for Day Separator
-  systemMessageText: '#5a7a8a', // Used for Day Separator text
+  systemMessageBg: '#e1f3fb',
+  systemMessageText: '#5a7a8a',
   onlineGreen: COLORS.LIGHT?.success || '#25D366',
   onlineRed: COLORS.LIGHT?.error || '#FF5252',
-  errorBg: COLORS.LIGHT?.error || '#FF5252', // Used for error message border/icon
+  errorBg: COLORS.LIGHT?.error || '#FF5252',
   border: COLORS.LIGHT?.border || '#E0E0E0',
   shadowColor: 'rgba(0,0,0,0.2)',
   iconColorDark: '#54656f',
@@ -60,17 +60,17 @@ const theme = {
   imagePlaceholderBg: '#e0e0e0',
 };
 
-// --- Base Font Sizes ---
+
 const baseFontSize = 15;
 const smallFontSize = 11;
 const largeFontSize = 17;
 const headerTitleSize = 18;
 const inputFontSize = 16;
 
-// --- Spacing Units ---
+
 const spacingUnit = 8;
 
-// --- SYSTEM INSTRUCTION ---
+
 const SYSTEM_INSTRUCTION = `
 You are Dostify, a 20-year-old Indian AI dost who is always ready to help—whether it’s academics, life advice, motivation, or just some casual chit-chat. You're the dost jo hamesha saath rehta hai, bringing a mix of fun, wit, and practicality.
 
@@ -136,16 +136,16 @@ No overly serious or robotic responses—conversation hamesha natural & engaging
 
 Avoid any offensive or inappropriate language.`;
 
-// --- API Configuration ---
-// IMPORTANT: Use environment variables for sensitive data in a real application
+
+
 const POLLINATIONS_API_URL = process.env.EXPO_PUBLIC_API_URL || "https://text.pollinations.ai/openai";
-const VISION_MODEL = process.env.EXPO_PUBLIC_VISION_MODEL || "openai"; // e.g., 'gpt-4-vision-preview'
-const TEXT_MODEL = process.env.EXPO_PUBLIC_TEXT_MODEL || "openai"; // e.g., 'gpt-3.5-turbo'
-// Add API Key handling if required by your endpoint:
-// const API_KEY = process.env.EXPO_PUBLIC_API_KEY || "YOUR_API_KEY";
+const VISION_MODEL = process.env.EXPO_PUBLIC_VISION_MODEL || "openai";
+const TEXT_MODEL = process.env.EXPO_PUBLIC_TEXT_MODEL || "openai";
 
 
-// --- Animated Typing Indicator ---
+
+
+
 const TypingIndicatorDots = memo(() => {
   const dot1 = useRef(new Animated.Value(0)).current;
   const dot2 = useRef(new Animated.Value(0)).current;
@@ -167,8 +167,10 @@ const TypingIndicatorDots = memo(() => {
 
   const dotStyle = (dot) => [
     styles.typingDotHeader,
-    { transform: [{ translateY: dot.interpolate({ inputRange: [0, 1], outputRange: [0, -4] }) }],
-      opacity: dot.interpolate({ inputRange: [0, 1], outputRange: [0.6, 1] }) },
+    {
+      transform: [{ translateY: dot.interpolate({ inputRange: [0, 1], outputRange: [0, -4] }) }],
+      opacity: dot.interpolate({ inputRange: [0, 1], outputRange: [0.6, 1] })
+    },
   ];
 
   return (
@@ -181,7 +183,7 @@ const TypingIndicatorDots = memo(() => {
 });
 TypingIndicatorDots.displayName = 'TypingIndicatorDots';
 
-// --- Header Component ---
+
 const Header = memo(({ title, onBackPress, clearChat, isLoading, serverStatus }) => {
   const getStatusText = () => serverStatus === "Online" ? "Online" : serverStatus === "Offline" ? "Offline" : "Connecting...";
   const getStatusDotColor = () => serverStatus === "Online" ? theme.onlineGreen : theme.onlineRed;
@@ -202,7 +204,7 @@ const Header = memo(({ title, onBackPress, clearChat, isLoading, serverStatus })
     <View style={styles.header}>
       <View style={styles.headerLeft}>
         <TouchableOpacity onPress={onBackPress} style={styles.headerButton} accessibilityLabel="Go back">
-            <MaterialCommunityIcons name="arrow-left" size={24} color={theme.iconColorLight} />
+          <MaterialCommunityIcons name="arrow-left" size={24} color={theme.iconColorLight} />
         </TouchableOpacity>
         <Image source={{ uri: 'https://dostify-climb.vercel.app/icon-removebg-preview.png' }} style={styles.headerAvatar} onError={(e) => console.error("Header Avatar Load Error:", e.nativeEvent.error)} />
         <View style={styles.headerInfo}>
@@ -221,12 +223,10 @@ const Header = memo(({ title, onBackPress, clearChat, isLoading, serverStatus })
         </View>
       </View>
       <View style={styles.headerRight}>
-        {/* Example: Removed Phone Icon, Kept Clear Chat */}
-        {/* <TouchableOpacity style={styles.headerButton} accessibilityLabel="Call" onPress={() => Alert.alert("Call", "Calling feature coming soon!")}>
-            <MaterialCommunityIcons name="phone" size={22} color={theme.iconColorLight} />
-        </TouchableOpacity> */}
+        
+        
         <TouchableOpacity onPress={handleClearChatPress} style={styles.headerButton} accessibilityLabel="Clear chat messages">
-            <MaterialCommunityIcons name="trash-can-outline" size={22} color={theme.iconColorLight} />
+          <MaterialCommunityIcons name="trash-can-outline" size={22} color={theme.iconColorLight} />
         </TouchableOpacity>
       </View>
     </View>
@@ -234,14 +234,14 @@ const Header = memo(({ title, onBackPress, clearChat, isLoading, serverStatus })
 });
 Header.displayName = 'Header';
 Header.propTypes = {
-    title: PropTypes.string.isRequired,
-    onBackPress: PropTypes.func.isRequired,
-    clearChat: PropTypes.func.isRequired, // Changed from onProfilePress
-    isLoading: PropTypes.bool,
-    serverStatus: PropTypes.oneOf(['Online', 'Offline', 'Loading...', 'Connecting...']).isRequired
+  title: PropTypes.string.isRequired,
+  onBackPress: PropTypes.func.isRequired,
+  clearChat: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
+  serverStatus: PropTypes.oneOf(['Online', 'Offline', 'Loading...', 'Connecting...']).isRequired
 };
 
-// --- Message Bubble Component ---
+
 const MessageBubble = memo(({ message, onImagePress }) => {
   const scaleAnim = useRef(new Animated.Value(0.97)).current;
   const hasImage = !!message.image;
@@ -249,7 +249,7 @@ const MessageBubble = memo(({ message, onImagePress }) => {
   const isUser = message.isUser;
 
   useEffect(() => {
-      Animated.spring(scaleAnim, { toValue: 1, friction: 6, tension: 80, useNativeDriver: true }).start();
+    Animated.spring(scaleAnim, { toValue: 1, friction: 6, tension: 80, useNativeDriver: true }).start();
   }, [scaleAnim]);
 
   const handleLinkPress = useCallback(async (url) => {
@@ -265,24 +265,24 @@ const MessageBubble = memo(({ message, onImagePress }) => {
     isUser ? (hasImage ? styles.userImageMessage : styles.userMessage) : styles.otherMessage
   ];
 
-  // Handle 'System' error messages
+
   if (message.sender === 'System' && message.text?.startsWith('⚠️ Error:')) {
-     return (
-       <View style={styles.systemErrorBubbleContainer}>
-         <View style={styles.systemErrorBubble}>
-           <MaterialCommunityIcons name="alert-circle-outline" size={18} color={theme.errorBg} style={{ marginRight: spacingUnit * 0.75 }}/>
-           <Text style={styles.systemErrorText} selectable={true}>{message.text.replace('⚠️ Error: ','')}</Text>
-         </View>
-       </View>
-     );
+    return (
+      <View style={styles.systemErrorBubbleContainer}>
+        <View style={styles.systemErrorBubble}>
+          <MaterialCommunityIcons name="alert-circle-outline" size={18} color={theme.errorBg} style={{ marginRight: spacingUnit * 0.75 }} />
+          <Text style={styles.systemErrorText} selectable={true}>{message.text.replace('⚠️ Error: ', '')}</Text>
+        </View>
+      </View>
+    );
   }
 
-  // Hide other 'System' messages (like the initial prompt)
+
   if (message.sender === 'System') return null;
 
-  // Render regular user or AI messages
+
   return (
-    <Animated.View style={[ { transform: [{ scale: scaleAnim }] }, styles.messageBubbleContainer, isUser ? styles.userMessageContainer : styles.otherMessageContainer ]}>
+    <Animated.View style={[{ transform: [{ scale: scaleAnim }] }, styles.messageBubbleContainer, isUser ? styles.userMessageContainer : styles.otherMessageContainer]}>
       <Pressable accessibilityLabel={`Message from ${isUser ? 'User' : message.sender || 'Dostify'}`}>
         <View style={messageBubbleStyle}>
           {!isUser && (
@@ -306,7 +306,7 @@ const MessageBubble = memo(({ message, onImagePress }) => {
               )
             )}
             <View style={styles.messageFooter}>
-              <Text style={[ styles.timestamp, isUser ? styles.userTimestamp : styles.otherTimestamp ]}>{message.timestamp}</Text>
+              <Text style={[styles.timestamp, isUser ? styles.userTimestamp : styles.otherTimestamp]}>{message.timestamp}</Text>
               {isUser && (
                 <View style={styles.readStatusContainer}>
                   <MaterialCommunityIcons name="check-all" size={16} color="#5B94FF" />
@@ -333,7 +333,7 @@ MessageBubble.propTypes = {
   onImagePress: PropTypes.func.isRequired
 };
 
-// --- Day Separator ---
+
 const DaySeparator = memo(({ date }) => (
   <View style={styles.daySeparator}>
     <View style={styles.daySeparatorLine} />
@@ -344,7 +344,7 @@ const DaySeparator = memo(({ date }) => (
 DaySeparator.displayName = 'DaySeparator';
 DaySeparator.propTypes = { date: PropTypes.string.isRequired };
 
-// --- Attachment Button ---
+
 const AttachmentButton = memo(({ onPress, icon, label, disabled }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const handlePressIn = () => Animated.spring(scaleAnim, { toValue: 0.9, friction: 5, useNativeDriver: true }).start();
@@ -367,13 +367,13 @@ const AttachmentButton = memo(({ onPress, icon, label, disabled }) => {
 });
 AttachmentButton.displayName = 'AttachmentButton';
 AttachmentButton.propTypes = {
-    onPress: PropTypes.func.isRequired,
-    icon: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    disabled: PropTypes.bool
+  onPress: PropTypes.func.isRequired,
+  icon: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  disabled: PropTypes.bool
 };
 
-// --- Helper function to format dates for separators ---
+
 const formatDateSeparator = (date) => {
   if (!date || !(date instanceof Date) || isNaN(date)) return "Invalid Date";
   const now = new Date();
@@ -386,7 +386,7 @@ const formatDateSeparator = (date) => {
   return date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
 };
 
-// --- Helper function to add date separators to messages ---
+
 const addDateSeparators = (messages) => {
   if (!messages || messages.length === 0) return [];
   const processedMessages = [];
@@ -395,54 +395,54 @@ const addDateSeparators = (messages) => {
   const sortedMessages = [...displayableMessages].sort((a, b) => (a.date?.getTime() || 0) - (b.date?.getTime() || 0));
 
   sortedMessages.forEach((message, index) => {
-      const messageDate = message.date instanceof Date && !isNaN(message.date) ? message.date : new Date();
-      const currentDateString = formatDateSeparator(messageDate);
-      if (currentDateString !== lastDateString && currentDateString !== "Invalid Date") {
-          processedMessages.push({ type: 'separator', id: `sep-${currentDateString}-${index}`, dateString: currentDateString });
-          lastDateString = currentDateString;
-      }
-      processedMessages.push({ ...message, type: 'message' });
+    const messageDate = message.date instanceof Date && !isNaN(message.date) ? message.date : new Date();
+    const currentDateString = formatDateSeparator(messageDate);
+    if (currentDateString !== lastDateString && currentDateString !== "Invalid Date") {
+      processedMessages.push({ type: 'separator', id: `sep-${currentDateString}-${index}`, dateString: currentDateString });
+      lastDateString = currentDateString;
+    }
+    processedMessages.push({ ...message, type: 'message' });
   });
   return processedMessages;
 };
 
 
-// --- Main Chat UI Component ---
+
 export default function ChatScreen() {
   const navigation = useNavigation();
   const { serverStatus } = useServerStatus();
 
-  // --- State ---
-  const [messages, setMessages] = useState([]); // Raw messages
-  const [loading, setLoading] = useState(false); // API/Image processing loading
+
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState('');
   const flatListRef = useRef(null);
   const sendButtonScale = useRef(new Animated.Value(1)).current;
   const [selectedImage, setSelectedImage] = useState(null);
   const [showScrollToBottomButton, setShowScrollToBottomButton] = useState(false);
-  const isNearBottomRef = useRef(true); // Track scroll position
+  const isNearBottomRef = useRef(true);
 
-  // --- Processed Data for FlatList ---
+
   const processedData = useMemo(() => addDateSeparators(messages), [messages]);
 
-  // --- Effects ---
-  // Scroll to bottom on new message if near bottom
+
+
   useEffect(() => {
     if (isNearBottomRef.current && processedData.length > 0) {
-      const timer = setTimeout(() => scrollToBottom(true), 100); // Delay helps layout settle
+      const timer = setTimeout(() => scrollToBottom(true), 100);
       return () => clearTimeout(timer);
-    }
-  }, [processedData]); // Re-run when data changes
-
-  // Hide scroll button if already at bottom
-   useEffect(() => {
-    if (isNearBottomRef.current) {
-        setShowScrollToBottomButton(false);
     }
   }, [processedData]);
 
 
-  // --- Functions ---
+  useEffect(() => {
+    if (isNearBottomRef.current) {
+      setShowScrollToBottomButton(false);
+    }
+  }, [processedData]);
+
+
+
   const scrollToBottom = useCallback((animated = true) => {
     if (flatListRef.current) {
       flatListRef.current.scrollToEnd({ animated });
@@ -464,36 +464,38 @@ export default function ChatScreen() {
     setInputText('');
     setLoading(true);
     Keyboard.dismiss();
-    isNearBottomRef.current = true; // Assume at bottom when sending
+    isNearBottomRef.current = true;
 
     let model = TEXT_MODEL;
     const apiMessages = [{ role: "system", content: SYSTEM_INSTRUCTION }];
 
-    // Add current user message content
+
     if (imageBase64) {
       model = VISION_MODEL;
-      apiMessages.push({ role: "user", content: [
-        { type: "text", text: text || "Describe this image." },
-        { type: "image_url", image_url: { url: `data:image/png;base64,${imageBase64}` } }
-      ]});
+      apiMessages.push({
+        role: "user", content: [
+          { type: "text", text: text || "Describe this image." },
+          { type: "image_url", image_url: { url: `data:image/png;base64,${imageBase64}` } }
+        ]
+      });
     } else if (text) {
       apiMessages.push({ role: "user", content: text });
     } else {
       console.warn("Attempted to send empty message."); setLoading(false); return;
     }
 
-    // --- Optional: Add Conversation History ---
-    // const history = messages
-    //   .filter(msg => msg.sender !== 'System')
-    //   .slice(-6)
-    //   .map(msg => ({
-    //     role: msg.isUser ? "user" : "assistant",
-    //     content: msg.text || (msg.image ? "[Image Sent]" : "")
-    //   }));
-    // apiMessages.splice(1, 0, ...history);
-    // -----------------------------------------
 
-    // Removed json: true from payload as it's not standard for OpenAI spec
+
+
+
+
+
+
+
+
+
+
+
     const payload = { model: model, messages: apiMessages, stream: false };
 
     try {
@@ -504,13 +506,13 @@ export default function ChatScreen() {
       const response = await fetch(POLLINATIONS_API_URL, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            // 'Authorization': `Bearer ${API_KEY}` // Uncomment if needed
+          'Content-Type': 'application/json',
+
         },
         body: JSON.stringify(payload)
       });
 
-      // --- Robust Response Handling ---
+
       const responseText = await response.text();
       console.log(`API Response Status: ${response.status}`);
       console.log("Raw API Response Text:", responseText);
@@ -525,10 +527,10 @@ export default function ChatScreen() {
       let result;
       try { result = JSON.parse(responseText); }
       catch (jsonParseError) {
-          console.error("JSON Parse Error on successful response:", jsonParseError);
-          throw new Error(`Received successful status (${response.status}) but failed to parse JSON response. Response Text: "${responseText.substring(0, 100)}..."`);
+        console.error("JSON Parse Error on successful response:", jsonParseError);
+        throw new Error(`Received successful status (${response.status}) but failed to parse JSON response. Response Text: "${responseText.substring(0, 100)}..."`);
       }
-      // --- End Robust Response Handling ---
+
 
       console.log("API Result (Parsed JSON):", result);
 
@@ -560,8 +562,8 @@ export default function ChatScreen() {
     } finally {
       setLoading(false);
     }
-  // Add `messages` to dependency array if using history
-  }, [VISION_MODEL, TEXT_MODEL, POLLINATIONS_API_URL /*, messages*/ ]);
+
+  }, [VISION_MODEL, TEXT_MODEL, POLLINATIONS_API_URL]);
 
   const animateSendButton = useCallback((pressed) => {
     Animated.spring(sendButtonScale, { toValue: pressed ? 0.9 : 1, friction: 5, useNativeDriver: true }).start();
@@ -582,11 +584,11 @@ export default function ChatScreen() {
   const handleImageSelection = useCallback(async (pickerResult) => {
     if (pickerResult.canceled) return;
     if (pickerResult.assets && pickerResult.assets.length > 0) {
-      setLoading(true); // Show loading while processing
+      setLoading(true);
       const asset = pickerResult.assets[0];
-      try { // Check file size
+      try {
         const fileInfo = await FileSystem.getInfoAsync(asset.uri);
-        const maxSize = 5 * 1024 * 1024; // 5MB limit
+        const maxSize = 5 * 1024 * 1024;
         if (fileInfo.exists && fileInfo.size && fileInfo.size > maxSize) {
           Alert.alert("Image Too Large", `Please select an image smaller than ${Math.round(maxSize / 1024 / 1024)}MB.`);
           setLoading(false); return;
@@ -597,7 +599,7 @@ export default function ChatScreen() {
       if (base64) {
         sendMessageToApi({ text: inputText.trim(), imageBase64: base64 });
       } else {
-        setLoading(false); // Stop loading if base64 fails
+        setLoading(false);
       }
     } else { console.warn("No assets found:", pickerResult); Alert.alert("Error", "Could not get selected image."); setLoading(false); }
   }, [inputText, sendMessageToApi]);
@@ -612,11 +614,11 @@ export default function ChatScreen() {
 
     try {
       const result = await launchFunction({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          quality: 0.7,
-          base64: false, // Keep false, we handle base64 encoding
-          allowsEditing: true, // <<<--- ENABLE EDITING/CROPPING
-          // aspect: [4, 3], // Optional: Uncomment to enforce aspect ratio
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.7,
+        base64: false,
+        allowsEditing: true,
+
       });
       await handleImageSelection(result);
     } catch (e) { console.error(`Error launching ${source}:`, e); Alert.alert("Error", `Could not open ${source}.`); setLoading(false); }
@@ -625,7 +627,7 @@ export default function ChatScreen() {
   const handleFilePress = useCallback(() => requestPermissionsAndPickImage('library'), [requestPermissionsAndPickImage]);
   const handleCameraPress = useCallback(() => requestPermissionsAndPickImage('camera'), [requestPermissionsAndPickImage]);
 
-  // --- Scroll Handling ---
+
   const SCROLL_THRESHOLD = 150;
   const handleScroll = useCallback((event) => {
     const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
@@ -635,28 +637,28 @@ export default function ChatScreen() {
     setShowScrollToBottomButton(isFarFromBottom && canScroll);
   }, [SCROLL_THRESHOLD]);
 
-  // --- Rendering ---
+
   const renderItem = useCallback(({ item }) => {
-      if (item.type === 'separator') return <DaySeparator date={item.dateString} />;
-      if (item.type === 'message') return <MessageBubble message={item} onImagePress={(url) => { setSelectedImage(url); }} />;
-      return null;
+    if (item.type === 'separator') return <DaySeparator date={item.dateString} />;
+    if (item.type === 'message') return <MessageBubble message={item} onImagePress={(url) => { setSelectedImage(url); }} />;
+    return null;
   }, [setSelectedImage]);
 
 
   const clearChat = useCallback(() => {
-    // Reset states related to chat content
+
     setMessages([]);
     setInputText('');
-    setSelectedImage(null); // Clear any selected image preview
-    // Optionally, reset scroll state refs/flags if needed
+    setSelectedImage(null);
+
     isNearBottomRef.current = true;
     setShowScrollToBottomButton(false);
     console.log("Chat cleared.");
-  }, []); // Empty dependency array, doesn't depend on external state changes
+  }, []);
 
   const ListEmptyComponent = useMemo(() => (
     <View style={styles.emptyStateContainer}>
-      <Image source={{ uri: 'https://dostify-climb.vercel.app/icon-removebg-preview.png' }} style={styles.emptyStateImage} onError={(e) => console.error("Empty State Image Load Error:", e.nativeEvent.error)}/>
+      <Image source={{ uri: 'https://dostify-climb.vercel.app/icon-removebg-preview.png' }} style={styles.emptyStateImage} onError={(e) => console.error("Empty State Image Load Error:", e.nativeEvent.error)} />
       <Text style={styles.emptyStateText}>Send a message or image to start chatting!</Text>
       <Text style={styles.emptyStateSubText}>Your AI Dost is ready.</Text>
     </View>
@@ -672,32 +674,32 @@ export default function ChatScreen() {
         <Header
           title="Dostify AI"
           onBackPress={() => navigation.goBack()}
-          clearChat={clearChat} // Pass the clearChat function
+          clearChat={clearChat}
           isLoading={loading && !inputText.trim()}
           serverStatus={serverStatus}
         />
 
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View style={{ flex: 1 }}>
-                <FlatList
-                  ref={flatListRef}
-                  data={processedData}
-                  renderItem={renderItem}
-                  keyExtractor={(item) => item.id}
-                  contentContainerStyle={styles.messageList}
-                  showsVerticalScrollIndicator={false}
-                  ListEmptyComponent={ListEmptyComponent}
-                  onScroll={handleScroll}
-                  scrollEventThrottle={100}
-                  ListHeaderComponent={<View style={styles.listTopSpacing} />}
-                  ListFooterComponent={<View style={styles.listBottomSpacing} />}
-                  keyboardShouldPersistTaps="handled"
-                  removeClippedSubviews={false}
-                />
-            </View>
+          <View style={{ flex: 1 }}>
+            <FlatList
+              ref={flatListRef}
+              data={processedData}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={styles.messageList}
+              showsVerticalScrollIndicator={false}
+              ListEmptyComponent={ListEmptyComponent}
+              onScroll={handleScroll}
+              scrollEventThrottle={100}
+              ListHeaderComponent={<View style={styles.listTopSpacing} />}
+              ListFooterComponent={<View style={styles.listBottomSpacing} />}
+              keyboardShouldPersistTaps="handled"
+              removeClippedSubviews={false}
+            />
+          </View>
         </TouchableWithoutFeedback>
 
-         {/* Scroll to Bottom Button */}
+        
         {showScrollToBottomButton && (
           <TouchableOpacity
             style={styles.scrollToBottomButton}
@@ -715,7 +717,7 @@ export default function ChatScreen() {
           style={styles.keyboardAvoidingView}
         >
           <View style={styles.inputArea}>
-            {/* Input Field Container */}
+            
             <View style={[styles.inputContainer, isInputDisabled && styles.inputContainerDisabled]}>
               <TouchableOpacity style={styles.emojiButton} onPress={() => Alert.alert("Emoji Picker", "Coming Soon!")} disabled={isInputDisabled} accessibilityLabel="Open emoji picker">
                 <MaterialCommunityIcons name="emoticon-happy-outline" size={24} color={isInputDisabled ? theme.textLight : theme.iconColorDark} />
@@ -736,11 +738,11 @@ export default function ChatScreen() {
               />
               <AttachmentButton icon="paperclip" onPress={handleFilePress} label="Attach file from library" disabled={isInputDisabled} />
               {Platform.OS !== 'web' && (
-                 <AttachmentButton icon="camera-outline" onPress={handleCameraPress} label="Take photo with camera" disabled={isInputDisabled} />
-               )}
+                <AttachmentButton icon="camera-outline" onPress={handleCameraPress} label="Take photo with camera" disabled={isInputDisabled} />
+              )}
             </View>
 
-            {/* Send Button */}
+            
             <Animated.View style={{ transform: [{ scale: sendButtonScale }] }}>
               <TouchableOpacity
                 style={[styles.sendButton, (!isSendActive || isInputDisabled) ? styles.sendButtonInactive : styles.sendButtonActive]}
@@ -760,12 +762,12 @@ export default function ChatScreen() {
           </View>
         </KeyboardAvoidingView>
 
-       </View>
+      </View>
     </SafeAreaView>
   );
 }
 
-// Markdown Styles
+
 const markdownStyles = StyleSheet.create({
   body: {
     fontSize: baseFontSize,
@@ -927,7 +929,7 @@ const markdownStyles = StyleSheet.create({
   },
 });
 
-// Main Component Styles
+
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -1057,7 +1059,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacingUnit * 0.6,
     borderRadius: 16,
     marginHorizontal: spacingUnit * 1.25,
-    overflow: 'hidden', // Added this based on borderRadius usage on Text
+    overflow: 'hidden',
   },
   messageBubbleContainer: {
     marginVertical: spacingUnit * 0.5,
@@ -1095,7 +1097,7 @@ const styles = StyleSheet.create({
   },
   otherMessage: {
     backgroundColor: theme.otherMessageBg,
-    flexDirection: 'row', // Ensure content (avatar + text bubble) is row
+    flexDirection: 'row',
     borderTopLeftRadius: 4,
     borderBottomLeftRadius: 12,
     borderTopRightRadius: 12,
@@ -1103,8 +1105,8 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     marginRight: spacingUnit * 1,
-    alignSelf: 'flex-end', // Align avatar to the bottom of the message row
-    marginBottom: 0, // Adjust if needed based on bubble padding/timestamp
+    alignSelf: 'flex-end',
+    marginBottom: 0,
   },
   avatar: {
     width: 30,
@@ -1113,19 +1115,19 @@ const styles = StyleSheet.create({
     backgroundColor: theme.imagePlaceholderBg,
   },
   messageContent: {
-    flexShrink: 1, // Allow text content to shrink if needed
-    paddingBottom: spacingUnit * 0.6, // Space for timestamp below text/image
+    flexShrink: 1,
+    paddingBottom: spacingUnit * 0.6,
   },
   messageImage: {
     width: 220,
     height: 220,
     borderRadius: 6,
     resizeMode: 'cover',
-    alignSelf: 'flex-start', // Keep image aligned left within bubble
+    alignSelf: 'flex-start',
     backgroundColor: theme.imagePlaceholderBg,
   },
   imageWithTextMargin: {
-    marginBottom: spacingUnit * 1, // Add space between image and text if both exist
+    marginBottom: spacingUnit * 1,
   },
   messageText: {
     fontSize: baseFontSize,
@@ -1145,10 +1147,10 @@ const styles = StyleSheet.create({
     marginRight: spacingUnit * 0.5,
   },
   userTimestamp: {
-    // Specific overrides for user timestamp style if needed
+
   },
   otherTimestamp: {
-    // Specific overrides for other user timestamp style if needed
+
   },
   readStatusContainer: {
     marginLeft: 2,
@@ -1180,7 +1182,7 @@ const styles = StyleSheet.create({
     lineHeight: 13 * 1.4,
   },
   keyboardAvoidingView: {
-    width: '100%', // Needed for KAV behavior sometimes
+    width: '100%',
   },
   inputArea: {
     flexDirection: 'row',
@@ -1189,7 +1191,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.inputAreaBg,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: theme.border,
-    alignItems: 'flex-end', // Align items like input and send button to bottom
+    alignItems: 'flex-end',
   },
   inputContainer: {
     flex: 1,
@@ -1197,37 +1199,37 @@ const styles = StyleSheet.create({
     backgroundColor: theme.inputBg,
     borderRadius: 22,
     paddingHorizontal: spacingUnit * 0.5,
-    alignItems: 'center', // Center items vertically within the container
+    alignItems: 'center',
     marginRight: spacingUnit * 0.75,
     minHeight: 44,
-    maxHeight: 120, // Allow input to grow
+    maxHeight: 120,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: theme.border,
   },
   inputContainerDisabled: {
-    backgroundColor: '#F8F8F8', // Lighter gray when disabled
+    backgroundColor: '#F8F8F8',
   },
   input: {
     flex: 1,
     paddingHorizontal: spacingUnit * 1.25,
     fontSize: inputFontSize,
     color: theme.textDark,
-    paddingTop: Platform.OS === 'ios' ? spacingUnit * 1.2 : spacingUnit * 0.8, // Adjust padding for vertical centering
-    paddingBottom: Platform.OS === 'ios' ? spacingUnit * 1.2 : spacingUnit * 0.8, // Adjust padding for vertical centering
-    textAlignVertical: 'center', // Helps on Android
+    paddingTop: Platform.OS === 'ios' ? spacingUnit * 1.2 : spacingUnit * 0.8,
+    paddingBottom: Platform.OS === 'ios' ? spacingUnit * 1.2 : spacingUnit * 0.8,
+    textAlignVertical: 'center',
   },
   inputDisabled: {
     color: theme.textLight,
   },
   emojiButton: {
     padding: spacingUnit * 1,
-    marginLeft: spacingUnit * 0.25, // Small space before emoji button
+    marginLeft: spacingUnit * 0.25,
   },
   attachmentButton: {
     padding: spacingUnit * 1,
   },
   disabledButton: {
-    opacity: 0.4, // Standard disabled opacity
+    opacity: 0.4,
   },
   sendButton: {
     width: 44,
@@ -1243,21 +1245,21 @@ const styles = StyleSheet.create({
     shadowRadius: 1.5,
   },
   sendButtonActive: {
-    // Default sendButton style is active
+
     backgroundColor: theme.primary,
     opacity: 1,
   },
   sendButtonInactive: {
     backgroundColor: theme.inactiveSend,
-    opacity: 0.8, // Slightly transparent when inactive
-    elevation: 0, // No shadow when inactive
+    opacity: 0.8,
+    elevation: 0,
   },
   emptyStateContainer: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: spacingUnit * 5,
-    marginTop: -Dimensions.get('window').height * 0.1, // Pull up slightly
+    marginTop: -Dimensions.get('window').height * 0.1,
   },
   emptyStateImage: {
     width: 100,
@@ -1279,9 +1281,9 @@ const styles = StyleSheet.create({
   },
   scrollToBottomButton: {
     position: 'absolute',
-    bottom: 65, // Position above the input area
+    bottom: 65,
     right: 15,
-    backgroundColor: theme.otherMessageBg + 'E6', // Semi-transparent background
+    backgroundColor: theme.otherMessageBg + 'E6',
     width: 40,
     height: 40,
     borderRadius: 20,
@@ -1292,7 +1294,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    zIndex: 10, // Ensure it's above the message list
+    zIndex: 10,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: theme.border,
   },
@@ -1300,12 +1302,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top:
       Platform.OS === 'ios'
-        ? (StatusBar.currentHeight || 0) + 15 // Adjust for iOS notch/status bar
-        : StatusBar.currentHeight + 10, // Adjust for Android status bar
+        ? (StatusBar.currentHeight || 0) + 15
+        : StatusBar.currentHeight + 10,
     right: 15,
     padding: spacingUnit,
-    zIndex: 1, // Ensure it's above header content if overlapping
-    backgroundColor: 'rgba(0,0,0,0.4)', // Semi-transparent background
+    zIndex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
     borderRadius: 20,
   },
 });

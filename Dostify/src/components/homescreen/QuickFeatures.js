@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   quickFeatureItem: {
     alignItems: 'center',
-    maxWidth: (width - SPACING.LARGE * 2) / 4 - SPACING.SMALL, // Calculation using width
+    maxWidth: (width - SPACING.LARGE * 2) / 4 - SPACING.SMALL,
   },
   quickFeatureIconContainer: {
     width: 56,

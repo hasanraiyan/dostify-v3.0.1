@@ -4,10 +4,10 @@ import { config } from "../constants/constant";
 import { STORAGE_KEYS } from "../constants/constant";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Create Context
+
 const AuthContext = createContext();
 
-// Auth Provider Component
+
 export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -16,15 +16,15 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        // Load user token from AsyncStorage when app starts
+
         const loadToken = async () => {
-    console.log("Attempting to log out...");
-    try {
+            console.log("Attempting to log out...");
+            try {
                 const storedToken = await AsyncStorage.getItem(STORAGE_KEYS.USERTOKEN);
                 if (storedToken) {
                     setToken(storedToken);
                     setIsLoggedIn(true);
-                    
+
                     console.log("User auto-signed in with existing token");
                 }
             } catch (error) {
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
         loadToken();
     }, []);
 
-    // Unified API Call Function
+
     const handleRequest = async (apiCall) => {
         setLoading(true);
         setError(null);
@@ -52,21 +52,21 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Register new user
+
     const register = async (username, email, password) => {
         return handleRequest(() =>
             axios.post(`${config.BACKEND_SERVER_URL}/auth/register`, { username, email, password, name })
         );
     };
 
-    // Verify email
+
     const verifyEmail = async (token) => {
         return handleRequest(() =>
             axios.post(`${config.BACKEND_SERVER_URL}/auth/verify-email/${token}`)
         );
     };
 
-    // Login user
+
     const login = async (email, password) => {
         const data = await handleRequest(() =>
             axios.post(`${config.BACKEND_SERVER_URL}/auth/login`, { email, password })
@@ -86,28 +86,28 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Forgot password
+
     const forgotPassword = async (email) => {
         return handleRequest(() =>
             axios.post(`${config.BACKEND_SERVER_URL}/auth/forgot-password`, { email })
         );
     };
 
-    // Reset password
+
     const resetPassword = async (token, newPassword) => {
         return handleRequest(() =>
             axios.post(`${config.BACKEND_SERVER_URL}/auth/reset-password/${token}`, { newPassword })
         );
     };
 
-    // Logout user
+
     const logout = async () => {
         try {
             await AsyncStorage.removeItem(STORAGE_KEYS.USERTOKEN);
             setIsLoggedIn(false);
             setToken(null);
             setUser(null);
-        console.log("Token removed successfully"); // Log on successful removal
+            console.log("Token removed successfully");
         } catch (error) {
             console.error("Error removing user token:", error);
         }
@@ -122,7 +122,7 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// Custom Hook to use the Auth Context
+
 export const useAuthContext = () => {
     return useContext(AuthContext);
 };

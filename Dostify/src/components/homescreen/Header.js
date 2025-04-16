@@ -34,7 +34,7 @@ const Header = React.memo(({ notifications }) => {
             style={styles.menuButton}
             onPress={openDrawer}
             activeOpacity={0.6}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Increase touch area
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
             <MaterialCommunityIcons name="menu" size={28} color={COLORS.primary} />
           </TouchableOpacity>
@@ -45,8 +45,8 @@ const Header = React.memo(({ notifications }) => {
           <TouchableOpacity
             style={styles.iconButton}
             activeOpacity={0.6}
-            onPress={() => console.log('Bell icon pressed')} 
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} 
+            onPress={() => console.log('Bell icon pressed')}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
             <MaterialCommunityIcons name="bell-outline" size={26} color={COLORS.primary} />
             {notifications > 0 && (
@@ -56,9 +56,9 @@ const Header = React.memo(({ notifications }) => {
             )}
           </TouchableOpacity>
           <TouchableOpacity
-             style={styles.profileButton}
-             activeOpacity={0.8}
-             onPress={() => console.log('Profile image pressed')} 
+            style={styles.profileButton}
+            activeOpacity={0.8}
+            onPress={() => console.log('Profile image pressed')}
           >
             <Image
               source={{ uri: 'https://avatars.githubusercontent.com/u/143262732?s=400&u=217d826d2c7720ea0984e7d9adef340a521cca84&v=4' }}
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS.mediumGrey,
     zIndex: 100,
-    elevation: 3, 
+    elevation: 3,
     shadowColor: COLORS.darkGrey,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
     marginRight: SPACING.SMALL,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 40, 
-    height: 40, 
+    width: 40,
+    height: 40,
   },
   username: {
     fontSize: 20,
@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 40, 
-    height: 40, 
+    width: 40,
+    height: 40,
   },
   notificationBadge: {
     position: 'absolute',
@@ -127,9 +127,9 @@ const styles = StyleSheet.create({
     right: 4,
     backgroundColor: COLORS.danger,
     borderRadius: 8,
-    minWidth: 16, 
+    minWidth: 16,
     height: 16,
-    paddingHorizontal: 3, 
+    paddingHorizontal: 3,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1.5,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: 9,
     fontWeight: FONT_WEIGHT.SEMIBOLD,
-    lineHeight: 10, 
+    lineHeight: 10,
   },
   profileButton: {
     marginLeft: SPACING.MEDIUM,

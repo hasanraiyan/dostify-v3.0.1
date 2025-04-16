@@ -22,34 +22,34 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-// --- Constants ---
+
 const COLORS = {
-  primary: '#007AFF', // Apple Blue
+  primary: '#007AFF',
   primaryLight: '#EBF5FF',
-  secondary: '#34C759', // Apple Green
+  secondary: '#34C759',
   secondaryLight: '#E1F5EA',
-  accent: '#AF52DE', // Apple Purple
+  accent: '#AF52DE',
   accentLight: '#F6EDFC',
   success: '#34C759',
   successLight: '#E1F5EA',
-  warning: '#FF9500', // Apple Orange
+  warning: '#FF9500',
   warningLight: '#FFF9E6',
-  danger: '#FF3B30', // Apple Red
+  danger: '#FF3B30',
   dangerLight: '#FFEBEA',
   white: '#FFFFFF',
   black: '#000000',
-  grey: '#8E8E93', // iOS Grey
-  lightGrey: '#F2F2F7', // iOS Light Grey
-  mediumGrey: '#E5E5EA', // iOS Medium Grey
-  darkGrey: '#1C1C1E', // iOS Dark Grey
-  background: '#F9F9F9', // Slightly off-white background for contrast
-  offWhite: '#F0F0F0', // A bit darker off-white for section backgrounds
+  grey: '#8E8E93',
+  lightGrey: '#F2F2F7',
+  mediumGrey: '#E5E5EA',
+  darkGrey: '#1C1C1E',
+  background: '#F9F9F9',
+  offWhite: '#F0F0F0',
 };
 
 const FONT_SIZES = {
   SMALL: 12,
   MEDIUM: 14,
-  LARGE: 17, // Default iOS size
+  LARGE: 17,
   XLARGE: 20,
   XXLARGE: 28,
   HUGE: 34,
@@ -77,38 +77,38 @@ const SPACING = {
 const { width, height } = Dimensions.get('window');
 
 const TASK_CATEGORIES = [
-    { id: '1', name: 'Academic', icon: 'school-outline', color: COLORS.primary },
-    { id: '2', name: 'Self-Care', icon: 'heart-outline', color: COLORS.accent },
-    { id: '3', name: 'Career', icon: 'briefcase-outline', color: COLORS.warning },
-    { id: '4', name: 'Social', icon: 'people-outline', color: COLORS.secondary },
-    { id: '5', name: 'Other', icon: 'ellipse-outline', color: COLORS.grey },
+  { id: '1', name: 'Academic', icon: 'school-outline', color: COLORS.primary },
+  { id: '2', name: 'Self-Care', icon: 'heart-outline', color: COLORS.accent },
+  { id: '3', name: 'Career', icon: 'briefcase-outline', color: COLORS.warning },
+  { id: '4', name: 'Social', icon: 'people-outline', color: COLORS.secondary },
+  { id: '5', name: 'Other', icon: 'ellipse-outline', color: COLORS.grey },
 ];
 
 const PRIORITIES = [
-    { id: 'low', name: 'Low', color: COLORS.secondary },
-    { id: 'medium', name: 'Medium', color: COLORS.warning },
-    { id: 'high', name: 'High', color: COLORS.danger },
+  { id: 'low', name: 'Low', color: COLORS.secondary },
+  { id: 'medium', name: 'Medium', color: COLORS.warning },
+  { id: 'high', name: 'High', color: COLORS.danger },
 ];
 
-// --- Planner Screen Component ---
+
 const PlannerScreen = () => {
   const navigation = useNavigation();
 
-  // --- State Variables ---
+
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [tasks, setTasks] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
   const [calendarExpanded, setCalendarExpanded] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState([]);
-  // NEW STATE: To track the displayed month/year in the calendar header
+
   const [calendarMonthYear, setCalendarMonthYear] = useState(new Date().toLocaleDateString(undefined, { month: 'long', year: 'numeric' }));
 
   const initialNewTaskState = {
     title: '',
     description: '',
     category: TASK_CATEGORIES[0].id,
-    priority: PRIORITIES[1].id, // Default to Medium
+    priority: PRIORITIES[1].id,
     dateTime: new Date(),
     reminder: true,
     completed: false,
@@ -119,12 +119,12 @@ const PlannerScreen = () => {
   const [pickerMode, setPickerMode] = useState('date');
   const [pickerDate, setPickerDate] = useState(new Date());
 
-  // --- Effects ---
+
   useEffect(() => {
     const initialDateStr = new Date().toISOString().split('T')[0];
     const initialDateTimeForTasks = new Date(initialDateStr + 'T09:00:00');
 
-    // Simulate loading tasks
+
     const dummyTasks = [
       {
         id: '1',
@@ -144,7 +144,7 @@ const PlannerScreen = () => {
         priority: 'medium',
         dateTime: new Date(initialDateStr + 'T08:00:00').toISOString(),
         reminder: true,
-        completed: true // Example completed task
+        completed: true
       },
       {
         id: '3',
@@ -156,10 +156,10 @@ const PlannerScreen = () => {
         reminder: false,
         completed: false
       },
-       {
+      {
         id: '4',
         title: 'Call Grandma',
-        description: '', // Example task with no description
+        description: '',
         category: '4',
         priority: 'medium',
         dateTime: new Date(initialDateStr + 'T19:00:00').toISOString(),
@@ -173,9 +173,9 @@ const PlannerScreen = () => {
     setPickerDate(initialDateTimeForTasks);
 
     const suggestions = [
-        { id: 's1', title: 'Take a 10-min walk', description: 'Stretch and get fresh air', type: 'wellness' },
-        { id: 's2', title: 'Review Lecture Notes', description: 'Consolidate learning', type: 'academic' },
-        { id: 's3', title: 'Plan Weekend Activities', description: 'Organize social events', type: 'social' },
+      { id: 's1', title: 'Take a 10-min walk', description: 'Stretch and get fresh air', type: 'wellness' },
+      { id: 's2', title: 'Review Lecture Notes', description: 'Consolidate learning', type: 'academic' },
+      { id: 's3', title: 'Plan Weekend Activities', description: 'Organize social events', type: 'social' },
     ];
     setAiSuggestions(suggestions);
 
@@ -186,7 +186,7 @@ const PlannerScreen = () => {
     updateMarkedDates(tasks, selectedDate);
   }, [tasks, selectedDate]);
 
-  // --- Helper Functions ---
+
   const formatDate = (date) => {
     if (!date || !(date instanceof Date)) return '';
     return date.toISOString().split('T')[0];
@@ -209,27 +209,27 @@ const PlannerScreen = () => {
   };
 
   const getTimePart = (dateTimeInput) => {
-     if (!dateTimeInput) return '00:00';
-      try {
-        const date = typeof dateTimeInput === 'string' ? new Date(dateTimeInput) : dateTimeInput;
-        if (isNaN(date.getTime())) return '00:00';
-        return formatTime(date);
-      } catch (error) { console.error("Error parsing date in getTimePart:", error); return '00:00'; }
+    if (!dateTimeInput) return '00:00';
+    try {
+      const date = typeof dateTimeInput === 'string' ? new Date(dateTimeInput) : dateTimeInput;
+      if (isNaN(date.getTime())) return '00:00';
+      return formatTime(date);
+    } catch (error) { console.error("Error parsing date in getTimePart:", error); return '00:00'; }
   };
 
   const getCategoryById = (id) => TASK_CATEGORIES.find(c => c.id === id) || TASK_CATEGORIES[TASK_CATEGORIES.length - 1];
   const getPriorityById = (id) => PRIORITIES.find(p => p.id === id) || PRIORITIES[0];
 
-  // --- Core Logic Functions ---
+
   const updateMarkedDates = (taskList, currentSelectedDateStr) => {
     const dates = {};
     taskList.forEach(task => {
       const taskDateStr = getDatePart(task.dateTime);
       if (taskDateStr) {
         dates[taskDateStr] = {
-            ...(dates[taskDateStr] || {}),
-            marked: true,
-            dotColor: COLORS.primary
+          ...(dates[taskDateStr] || {}),
+          marked: true,
+          dotColor: COLORS.primary
         };
       }
     });
@@ -277,7 +277,7 @@ const PlannerScreen = () => {
     setModalVisible(false);
 
     const nextDefaultDateTime = new Date(selectedDate + 'T09:00:00');
-    setNewTask({...initialNewTaskState, dateTime: nextDefaultDateTime });
+    setNewTask({ ...initialNewTaskState, dateTime: nextDefaultDateTime });
     setPickerDate(nextDefaultDateTime);
   };
 
@@ -294,19 +294,19 @@ const PlannerScreen = () => {
     setTasks(updatedTasks);
   };
 
-  // NEW FUNCTION: Handle month change in calendar
+
   const handleMonthChange = useCallback((month) => {
     if (month && month.monthNames && Array.isArray(month.monthNames) && month.month > 0 && month.month <= 12) {
-      setCalendarMonthYear(`${month.monthNames[month.month - 1]} ${month.year}`); // Update month year text
+      setCalendarMonthYear(`${month.monthNames[month.month - 1]} ${month.year}`);
     } else {
       console.warn("Invalid month object received in handleMonthChange:", month);
-      // Optionally, you could set a default value for calendarMonthYear here if needed
-      // setCalendarMonthYear(new Date().toLocaleDateString(undefined, { month: 'long', year: 'numeric' }));
+
+
     }
   }, []);
 
 
-  // --- DateTimePicker Handlers ---
+
   const showMode = (currentMode) => {
     setPickerMode(currentMode);
     setPickerDate(newTask.dateTime || new Date());
@@ -317,37 +317,37 @@ const PlannerScreen = () => {
   const showTimepicker = () => showMode('time');
 
   const onPickerChange = (event, selectedValue) => {
-     const currentValue = selectedValue || pickerDate;
+    const currentValue = selectedValue || pickerDate;
 
-     setShowPicker(Platform.OS === 'ios');
+    setShowPicker(Platform.OS === 'ios');
 
-     if (event.type === 'set' || (Platform.OS === 'android' && selectedValue)) {
-        setPickerDate(currentValue);
-        setNewTask({ ...newTask, dateTime: currentValue });
-     } else {
-         if (Platform.OS === 'android') setShowPicker(false);
-     }
+    if (event.type === 'set' || (Platform.OS === 'android' && selectedValue)) {
+      setPickerDate(currentValue);
+      setNewTask({ ...newTask, dateTime: currentValue });
+    } else {
+      if (Platform.OS === 'android') setShowPicker(false);
+    }
   };
 
   const dismissIosPicker = () => {
-      setShowPicker(false);
+    setShowPicker(false);
   }
 
 
-  // --- Filtering and Sorting ---
+
   const filteredTasks = tasks.filter(task => getDatePart(task.dateTime) === selectedDate);
 
   const sortedFilteredTasks = filteredTasks.sort((a, b) => {
-      if (a.completed !== b.completed) { return a.completed ? 1 : -1; }
-      try {
-          const dateA = new Date(a.dateTime); const dateB = new Date(b.dateTime);
-          if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) return 0;
-          return dateA.getTime() - dateB.getTime();
-      } catch (error) { console.error("Error sorting tasks by time:", error); return 0; }
+    if (a.completed !== b.completed) { return a.completed ? 1 : -1; }
+    try {
+      const dateA = new Date(a.dateTime); const dateB = new Date(b.dateTime);
+      if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) return 0;
+      return dateA.getTime() - dateB.getTime();
+    } catch (error) { console.error("Error sorting tasks by time:", error); return 0; }
   });
 
 
-  // --- Render Functions ---
+
 
   const renderTaskItem = ({ item }) => {
     const category = getCategoryById(item.category);
@@ -357,60 +357,60 @@ const PlannerScreen = () => {
     return (
       <TouchableOpacity
         style={[
-            styles.taskItem,
-            item.completed && styles.taskItemCompleted,
-            { borderLeftColor: category.color } // Category color indicator
+          styles.taskItem,
+          item.completed && styles.taskItemCompleted,
+          { borderLeftColor: category.color }
         ]}
         onPress={() => toggleTaskCompletion(item.id)}
         activeOpacity={0.7}
       >
-        {/* Checkbox Area */}
+
         <TouchableOpacity
           style={styles.taskCheckboxArea}
           onPress={() => toggleTaskCompletion(item.id)}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         >
-          <View style={[ styles.checkbox, item.completed && { backgroundColor: COLORS.primary, borderColor: COLORS.primary } ]}>
+          <View style={[styles.checkbox, item.completed && { backgroundColor: COLORS.primary, borderColor: COLORS.primary }]}>
             {item.completed && <Ionicons name="checkmark" size={18} color={COLORS.white} />}
           </View>
         </TouchableOpacity>
 
-        {/* Task Details Area */}
+
         <View style={styles.taskContent}>
-          {/* Top Row: Title + Priority */}
+
           <View style={styles.taskHeader}>
             <Text style={[styles.taskTitle, item.completed && styles.taskTitleCompleted]} numberOfLines={2}>
               {item.title}
             </Text>
-                 <View style={[styles.priorityBadge, { backgroundColor: priority.color + '20' }]}>
-                   <View style={[styles.priorityDotSmall, { backgroundColor: priority.color }]} />
-                   <Text style={[styles.priorityText, { color: priority.color }]}>{priority.name}</Text>
-                 </View>
+            <View style={[styles.priorityBadge, { backgroundColor: priority.color + '20' }]}>
+              <View style={[styles.priorityDotSmall, { backgroundColor: priority.color }]} />
+              <Text style={[styles.priorityText, { color: priority.color }]}>{priority.name}</Text>
+            </View>
           </View>
 
-          {/* Description */}
+
           {item.description ? (
             <Text style={[styles.taskDescription, item.completed && styles.taskDescriptionCompleted]} numberOfLines={2}>
               {item.description}
             </Text>
           ) : null}
 
-          {/* Footer Row: Time, Category, Reminder */}
+
           <View style={styles.taskFooter}>
-            {/* Time */}
+
             <View style={styles.taskInfoChip}>
-              <Ionicons name="time-outline" size={14} color={COLORS.grey} style={styles.footerIcon}/>
+              <Ionicons name="time-outline" size={14} color={COLORS.grey} style={styles.footerIcon} />
               <Text style={styles.taskInfoText}>{taskTime}</Text>
             </View>
-            {/* Category */}
+
             <View style={[styles.taskInfoChip, { backgroundColor: category.color + '15' }]}>
               <Ionicons name={category.icon} size={14} color={category.color} style={styles.footerIcon} />
               <Text style={[styles.taskInfoText, { color: category.color }]}>{category.name}</Text>
             </View>
-            {/* Reminder */}
+
             {item.reminder && !item.completed && (
               <View style={styles.taskInfoChip}>
-                <Ionicons name="notifications-outline" size={14} color={COLORS.grey} style={styles.footerIcon}/>
+                <Ionicons name="notifications-outline" size={14} color={COLORS.grey} style={styles.footerIcon} />
               </View>
             )}
           </View>
@@ -420,10 +420,10 @@ const PlannerScreen = () => {
   };
 
   const renderSuggestionItem = ({ item }) => {
-      const iconMap = { academic: 'school-outline', wellness: 'leaf-outline', career: 'briefcase-outline', social: 'people-outline', other: 'help-circle-outline' };
-      const colorMap = { academic: COLORS.primary, wellness: COLORS.secondary, career: COLORS.warning, social: COLORS.accent, other: COLORS.grey };
-      const iconName = iconMap[item.type] || iconMap.other;
-      const iconColor = colorMap[item.type] || colorMap.other;
+    const iconMap = { academic: 'school-outline', wellness: 'leaf-outline', career: 'briefcase-outline', social: 'people-outline', other: 'help-circle-outline' };
+    const colorMap = { academic: COLORS.primary, wellness: COLORS.secondary, career: COLORS.warning, social: COLORS.accent, other: COLORS.grey };
+    const iconName = iconMap[item.type] || iconMap.other;
+    const iconColor = colorMap[item.type] || colorMap.other;
 
     return (
       <TouchableOpacity
@@ -439,7 +439,7 @@ const PlannerScreen = () => {
                 onPress: () => {
                   const categoryMap = { academic: '1', wellness: '2', career: '3', social: '4' };
                   const suggestedCategory = categoryMap[item.type] || '5';
-                  const suggestionDateTime = new Date(selectedDate + 'T12:00:00'); // Suggest noon
+                  const suggestionDateTime = new Date(selectedDate + 'T12:00:00');
 
                   setNewTask({
                     ...initialNewTaskState,
@@ -447,10 +447,10 @@ const PlannerScreen = () => {
                     description: item.description,
                     category: suggestedCategory,
                     dateTime: suggestionDateTime,
-                    priority: 'medium', // Default suggested priority
-                    reminder: false, // Default suggested reminder off
+                    priority: 'medium',
+                    reminder: false,
                   });
-                   setPickerDate(suggestionDateTime);
+                  setPickerDate(suggestionDateTime);
                   setModalVisible(true);
                 }
               }
@@ -459,7 +459,7 @@ const PlannerScreen = () => {
         }}
         activeOpacity={0.8}
       >
-        <View style={[styles.suggestionIconContainer, { backgroundColor: iconColor + '20'}]}>
+        <View style={[styles.suggestionIconContainer, { backgroundColor: iconColor + '20' }]}>
           <Ionicons name={iconName} size={22} color={iconColor} />
         </View>
         <View style={styles.suggestionContent}>
@@ -472,53 +472,53 @@ const PlannerScreen = () => {
   };
 
   const generateMiniCalendarDays = (centerDateStr) => {
-      const days = [];
-      const centerDate = new Date(centerDateStr + 'T12:00:00');
-      if (isNaN(centerDate.getTime())) return [];
-      const todayStr = formatDate(new Date());
+    const days = [];
+    const centerDate = new Date(centerDateStr + 'T12:00:00');
+    if (isNaN(centerDate.getTime())) return [];
+    const todayStr = formatDate(new Date());
 
-      for (let i = -3; i <= 3; i++) {
-          const date = new Date(centerDate);
-          date.setDate(date.getDate() + i);
-          days.push({ date, isToday: formatDate(date) === todayStr });
-      }
-      return days;
+    for (let i = -3; i <= 3; i++) {
+      const date = new Date(centerDate);
+      date.setDate(date.getDate() + i);
+      days.push({ date, isToday: formatDate(date) === todayStr });
+    }
+    return days;
   };
   const miniCalendarDays = generateMiniCalendarDays(selectedDate);
 
 
-  // --- Main Render ---
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.white} />
 
-      {/* Header */}
+
       <View style={styles.header}>
         <View style={styles.headerSide}>
           <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.headerButton}>
             <Ionicons name="menu-outline" size={28} color={COLORS.primary} />
           </TouchableOpacity>
         </View>
-        {/* Calendar Toggle Button - ENTIRE Area is Touchable now including calendar icon */}
+
         <TouchableOpacity style={styles.calendarToggle} onPress={() => setCalendarExpanded(!calendarExpanded)}>
-           <Ionicons name="calendar-outline" size={24} color={COLORS.primary} style={styles.calendarIcon}/>
-           <Text style={styles.headerTitle}>
-               {calendarMonthYear} {/* Display dynamic month and year */}
-           </Text>
-           <Ionicons name={calendarExpanded ? "chevron-up-circle-outline" : "chevron-down-circle-outline"} size={20} color={COLORS.grey} style={{ marginLeft: SPACING.SMALL }} />
+          <Ionicons name="calendar-outline" size={24} color={COLORS.primary} style={styles.calendarIcon} />
+          <Text style={styles.headerTitle}>
+            {calendarMonthYear}
+          </Text>
+          <Ionicons name={calendarExpanded ? "chevron-up-circle-outline" : "chevron-down-circle-outline"} size={20} color={COLORS.grey} style={{ marginLeft: SPACING.SMALL }} />
         </TouchableOpacity>
         <View style={[styles.headerSide, styles.headerSideRight]}>
           <TouchableOpacity style={styles.headerButton} onPress={() => Alert.alert("Search", "Search functionality to be implemented.")}>
             <Ionicons name="search-outline" size={24} color={COLORS.primary} />
           </TouchableOpacity>
-           <TouchableOpacity style={[styles.headerButton, { marginLeft: SPACING.SMALL }]} onPress={() => setCalendarExpanded(!calendarExpanded)}>
-             <Ionicons name="today-outline" size={24} color={COLORS.primary} />
-           </TouchableOpacity>
+          <TouchableOpacity style={[styles.headerButton, { marginLeft: SPACING.SMALL }]} onPress={() => setCalendarExpanded(!calendarExpanded)}>
+            <Ionicons name="today-outline" size={24} color={COLORS.primary} />
+          </TouchableOpacity>
         </View>
       </View>
 
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-        {/* Expandable Calendar Section */}
+
         <View style={styles.calendarContainer}>
           {calendarExpanded ? (
             <Calendar
@@ -531,87 +531,87 @@ const PlannerScreen = () => {
               theme={styles.calendarTheme}
               style={styles.fullCalendar}
               firstDay={1}
-              // NEW PROP: To handle month change and update header text
+
               onMonthChange={handleMonthChange}
             />
           ) : (
             <View style={styles.miniCalendar}>
-                {miniCalendarDays.map(({ date, isToday }) => {
-                  const dateString = formatDate(date);
-                  if (!dateString) return null;
-                  const isSelected = dateString === selectedDate;
-                  const dayOfMonth = date.getDate();
-                  const dayOfWeek = date.toLocaleDateString('default', { weekday: 'short' });
+              {miniCalendarDays.map(({ date, isToday }) => {
+                const dateString = formatDate(date);
+                if (!dateString) return null;
+                const isSelected = dateString === selectedDate;
+                const dayOfMonth = date.getDate();
+                const dayOfWeek = date.toLocaleDateString('default', { weekday: 'short' });
 
-                  return (
-                    <TouchableOpacity
-                      key={dateString}
-                      style={[
-                          styles.dayItem,
-                          isSelected && styles.selectedDayItem,
-                          isToday && !isSelected && styles.todayDayItem
-                        ]}
-                      onPress={() => onDayPress({ dateString })}
-                      activeOpacity={0.7}
-                    >
-                      <Text style={[
-                          styles.weekdayText,
-                          isSelected && styles.selectedDayText,
-                          isToday && !isSelected && styles.todayDayText
-                        ]}>
-                        {dayOfWeek.toUpperCase()}
-                      </Text>
-                       <Text style={[
-                           styles.dayText,
-                           isSelected && styles.selectedDayText,
-                           isToday && !isSelected && styles.todayDayText
-                        ]}>
-                        {dayOfMonth}
-                      </Text>
-                      {markedDates[dateString]?.marked && !isSelected && (
-                        <View style={[styles.miniCalendarDot, isToday && {backgroundColor: COLORS.primary } ]}/>
-                      )}
-                    </TouchableOpacity>
-                  );
-                })}
+                return (
+                  <TouchableOpacity
+                    key={dateString}
+                    style={[
+                      styles.dayItem,
+                      isSelected && styles.selectedDayItem,
+                      isToday && !isSelected && styles.todayDayItem
+                    ]}
+                    onPress={() => onDayPress({ dateString })}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={[
+                      styles.weekdayText,
+                      isSelected && styles.selectedDayText,
+                      isToday && !isSelected && styles.todayDayText
+                    ]}>
+                      {dayOfWeek.toUpperCase()}
+                    </Text>
+                    <Text style={[
+                      styles.dayText,
+                      isSelected && styles.selectedDayText,
+                      isToday && !isSelected && styles.todayDayText
+                    ]}>
+                      {dayOfMonth}
+                    </Text>
+                    {markedDates[dateString]?.marked && !isSelected && (
+                      <View style={[styles.miniCalendarDot, isToday && { backgroundColor: COLORS.primary }]} />
+                    )}
+                  </TouchableOpacity>
+                );
+              })}
             </View>
           )}
         </View>
 
-        {/* Task Summary Section */}
+
         <View style={styles.summaryContainer}>
-            <View style={styles.summaryItem}>
-                 <View style={[styles.summaryIconWrapper, { backgroundColor: COLORS.primaryLight }]}>
-                    <Ionicons name="list-outline" size={20} color={COLORS.primary} />
-                 </View>
-                <View>
-                  <Text style={styles.summaryCount}>{filteredTasks.length}</Text>
-                  <Text style={styles.summaryLabel}>Tasks</Text>
-                </View>
+          <View style={styles.summaryItem}>
+            <View style={[styles.summaryIconWrapper, { backgroundColor: COLORS.primaryLight }]}>
+              <Ionicons name="list-outline" size={20} color={COLORS.primary} />
             </View>
-            <View style={styles.summarySeparator} />
-            <View style={styles.summaryItem}>
-                <View style={[styles.summaryIconWrapper, { backgroundColor: COLORS.successLight }]}>
-                    <Ionicons name="checkmark-done-outline" size={20} color={COLORS.success} />
-                 </View>
-                <View>
-                  <Text style={styles.summaryCount}>{filteredTasks.filter(t => t.completed).length}</Text>
-                  <Text style={styles.summaryLabel}>Done</Text>
-                </View>
+            <View>
+              <Text style={styles.summaryCount}>{filteredTasks.length}</Text>
+              <Text style={styles.summaryLabel}>Tasks</Text>
             </View>
-            <View style={styles.summarySeparator} />
-            <View style={styles.summaryItem}>
-                 <View style={[styles.summaryIconWrapper, { backgroundColor: COLORS.dangerLight }]}>
-                    <Ionicons name="flag-outline" size={20} color={COLORS.danger} />
-                 </View>
-                <View>
-                   <Text style={styles.summaryCount}>{filteredTasks.filter(t => t.priority === 'high' && !t.completed).length}</Text>
-                   <Text style={styles.summaryLabel}>Urgent</Text>
-                </View>
+          </View>
+          <View style={styles.summarySeparator} />
+          <View style={styles.summaryItem}>
+            <View style={[styles.summaryIconWrapper, { backgroundColor: COLORS.successLight }]}>
+              <Ionicons name="checkmark-done-outline" size={20} color={COLORS.success} />
             </View>
+            <View>
+              <Text style={styles.summaryCount}>{filteredTasks.filter(t => t.completed).length}</Text>
+              <Text style={styles.summaryLabel}>Done</Text>
+            </View>
+          </View>
+          <View style={styles.summarySeparator} />
+          <View style={styles.summaryItem}>
+            <View style={[styles.summaryIconWrapper, { backgroundColor: COLORS.dangerLight }]}>
+              <Ionicons name="flag-outline" size={20} color={COLORS.danger} />
+            </View>
+            <View>
+              <Text style={styles.summaryCount}>{filteredTasks.filter(t => t.priority === 'high' && !t.completed).length}</Text>
+              <Text style={styles.summaryLabel}>Urgent</Text>
+            </View>
+          </View>
         </View>
 
-        {/* AI Suggestions Section */}
+
         {aiSuggestions.length > 0 && !calendarExpanded && (
           <View style={styles.suggestionsSection}>
             <View style={styles.sectionHeader}>
@@ -628,12 +628,12 @@ const PlannerScreen = () => {
           </View>
         )}
 
-        {/* Tasks List Section */}
+
         <View style={styles.tasksSection}>
           <View style={styles.sectionHeader}>
-             <Text style={styles.sectionTitle}>
-                {selectedDate === formatDate(new Date()) ? "Today's Tasks" : `Tasks for ${new Date(selectedDate + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' })}`}
-             </Text>
+            <Text style={styles.sectionTitle}>
+              {selectedDate === formatDate(new Date()) ? "Today's Tasks" : `Tasks for ${new Date(selectedDate + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' })}`}
+            </Text>
           </View>
 
           {sortedFilteredTasks.length > 0 ? (
@@ -642,7 +642,7 @@ const PlannerScreen = () => {
               renderItem={renderTaskItem}
               keyExtractor={item => item.id}
               scrollEnabled={false}
-              ItemSeparatorComponent={() => <View style={{height: SPACING.MEDIUM}} />}
+              ItemSeparatorComponent={() => <View style={{ height: SPACING.MEDIUM }} />}
             />
           ) : (
             <View style={styles.emptyStateContainer}>
@@ -650,29 +650,29 @@ const PlannerScreen = () => {
               <Text style={styles.emptyStateTitle}>All Clear!</Text>
               <Text style={styles.emptyStateText}>No tasks scheduled for this day.</Text>
               <TouchableOpacity style={styles.emptyStateButton} onPress={() => setModalVisible(true)}>
-                    <Ionicons name="add-circle-outline" size={20} color={COLORS.primary} style={{ marginRight: SPACING.SMALL }}/>
-                    <Text style={styles.emptyStateButtonText}>Add New Task</Text>
+                <Ionicons name="add-circle-outline" size={20} color={COLORS.primary} style={{ marginRight: SPACING.SMALL }} />
+                <Text style={styles.emptyStateButtonText}>Add New Task</Text>
               </TouchableOpacity>
             </View>
           )}
         </View>
 
-        {/* Bottom Spacer */}
+
         <View style={{ height: 120 }} />
 
       </ScrollView>
 
-      {/* Floating Add Button */}
+
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => {
-            const currentFormTime = newTask.dateTime || new Date();
-            const initialModalDateTime = new Date(selectedDate + 'T12:00:00');
-            initialModalDateTime.setHours(currentFormTime.getHours());
-            initialModalDateTime.setMinutes(Math.ceil(currentFormTime.getMinutes() / 15) * 15);
-            setNewTask(prev => ({ ...initialNewTaskState, dateTime: initialModalDateTime }));
-            setPickerDate(initialModalDateTime);
-            setModalVisible(true);
+          const currentFormTime = newTask.dateTime || new Date();
+          const initialModalDateTime = new Date(selectedDate + 'T12:00:00');
+          initialModalDateTime.setHours(currentFormTime.getHours());
+          initialModalDateTime.setMinutes(Math.ceil(currentFormTime.getMinutes() / 15) * 15);
+          setNewTask(prev => ({ ...initialNewTaskState, dateTime: initialModalDateTime }));
+          setPickerDate(initialModalDateTime);
+          setModalVisible(true);
         }}
         activeOpacity={0.8}
       >
@@ -685,206 +685,206 @@ const PlannerScreen = () => {
         </LinearGradient>
       </TouchableOpacity>
 
-      {/* Add/Edit Task Modal */}
+
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        {/* KeyboardAvoidingView for better input handling */}
+
         <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flex: 1 }}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
         >
-            <View style={styles.modalOverlay}>
-              {/* Touchable backdrop to close */}
-              <TouchableOpacity style={StyleSheet.absoluteFill} onPress={() => setModalVisible(false)} />
-              <View style={styles.modalContent}>
-                {/* Modal Handle */}
-                <View style={styles.modalHandle}></View>
+          <View style={styles.modalOverlay}>
 
-                <View style={styles.modalHeader}>
-                  <Text style={styles.modalTitle}>Add New Task</Text>
-                  <TouchableOpacity style={styles.modalCloseButton} onPress={() => setModalVisible(false)}>
-                    <Ionicons name="close-circle" size={30} color={COLORS.mediumGrey} />
-                  </TouchableOpacity>
+            <TouchableOpacity style={StyleSheet.absoluteFill} onPress={() => setModalVisible(false)} />
+            <View style={styles.modalContent}>
+
+              <View style={styles.modalHandle}></View>
+
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>Add New Task</Text>
+                <TouchableOpacity style={styles.modalCloseButton} onPress={() => setModalVisible(false)}>
+                  <Ionicons name="close-circle" size={30} color={COLORS.mediumGrey} />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>Title *</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="e.g., Finish project proposal"
+                    placeholderTextColor={COLORS.grey}
+                    value={newTask.title}
+                    onChangeText={(text) => setNewTask({ ...newTask, title: text })}
+                    autoFocus={true}
+                    returnKeyType="next"
+                  />
                 </View>
 
-                <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-                  {/* Task Title */}
-                  <View style={styles.inputGroup}>
-                    <Text style={styles.inputLabel}>Title *</Text>
-                    <TextInput
-                      style={styles.textInput}
-                      placeholder="e.g., Finish project proposal"
-                      placeholderTextColor={COLORS.grey}
-                      value={newTask.title}
-                      onChangeText={(text) => setNewTask({ ...newTask, title: text })}
-                      autoFocus={true}
-                      returnKeyType="next"
-                    />
-                  </View>
 
-                  {/* Task Description */}
-                  <View style={styles.inputGroup}>
-                    <Text style={styles.inputLabel}>Description</Text>
-                    <TextInput
-                      style={[styles.textInput, styles.textAreaInput]}
-                      placeholder="Add details (optional)"
-                      placeholderTextColor={COLORS.grey}
-                      multiline={true}
-                      value={newTask.description}
-                      onChangeText={(text) => setNewTask({ ...newTask, description: text })}
-                    />
-                  </View>
-
-                  {/* Date & Time Picker Row */}
-                  <View style={[styles.inputGroup, styles.dateTimeRow]}>
-                      <View style={styles.pickerInputContainer}>
-                        <Text style={styles.inputLabel}>Date</Text>
-                        <TouchableOpacity style={styles.pickerButton} onPress={showDatepicker}>
-                            <Ionicons name="calendar-outline" size={20} color={COLORS.grey} style={styles.pickerIcon} />
-                            <Text style={styles.pickerButtonText}>
-                                {newTask.dateTime.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
-                            </Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={styles.pickerInputContainer}>
-                        <Text style={styles.inputLabel}>Time</Text>
-                        <TouchableOpacity style={styles.pickerButton} onPress={showTimepicker}>
-                            <Ionicons name="time-outline" size={20} color={COLORS.grey} style={styles.pickerIcon}/>
-                            <Text style={styles.pickerButtonText}>
-                                {newTask.dateTime.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', hour12: true })}
-                            </Text>
-                        </TouchableOpacity>
-                      </View>
-                  </View>
-
-                  {/* DateTimePicker */}
-                  {showPicker && (
-                    <View>
-                        <DateTimePicker
-                        testID="dateTimePicker"
-                        value={pickerDate}
-                        mode={pickerMode}
-                        is24Hour={false}
-                        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                        onChange={onPickerChange}
-                        minimumDate={new Date(new Date().getFullYear() -1, 0, 1)}
-                        style={styles.dateTimePicker}
-                        />
-                        {/* iOS Done Button */}
-                        {showPicker && Platform.OS === 'ios' && pickerMode !== 'inline' && (
-                            <TouchableOpacity style={styles.iosPickerDoneButton} onPress={dismissIosPicker}>
-                                <Text style={styles.iosPickerDoneButtonText}>Done</Text>
-                            </TouchableOpacity>
-                        )}
-                    </View>
-                  )}
-
-
-                  {/* Category Selection */}
-                  <View style={styles.inputGroup}>
-                    <Text style={styles.inputLabel}>Category</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalSelector}>
-                      {TASK_CATEGORIES.map((category) => (
-                        <TouchableOpacity
-                          key={category.id}
-                          style={[
-                            styles.selectorChip,
-                            newTask.category === category.id && styles.selectorChipSelected,
-                            newTask.category === category.id && { backgroundColor: category.color + '20', borderColor: category.color }
-                          ]}
-                          onPress={() => setNewTask({ ...newTask, category: category.id })}
-                          activeOpacity={0.7}
-                        >
-                          <Ionicons name={category.icon} size={16} color={newTask.category === category.id ? category.color : COLORS.grey} style={styles.selectorIcon}/>
-                          <Text style={[styles.selectorText, newTask.category === category.id && { color: category.color, fontWeight: FONT_WEIGHT.SEMIBOLD }]}>
-                            {category.name}
-                          </Text>
-                        </TouchableOpacity>
-                      ))}
-                    </ScrollView>
-                  </View>
-
-                  {/* Priority Selection */}
-                  <View style={styles.inputGroup}>
-                    <Text style={styles.inputLabel}>Priority</Text>
-                    <View style={styles.priorityContainer}>
-                      {PRIORITIES.map((priority) => (
-                        <TouchableOpacity
-                          key={priority.id}
-                          style={[
-                            styles.prioritySegment,
-                            newTask.priority === priority.id && styles.prioritySegmentSelected,
-                            newTask.priority === priority.id && { backgroundColor: priority.color, borderColor: priority.color }
-                          ]}
-                          onPress={() => setNewTask({ ...newTask, priority: priority.id })}
-                          activeOpacity={0.7}
-                        >
-                          {newTask.priority !== priority.id && <View style={[styles.priorityDot, { backgroundColor: priority.color }]} />}
-                          <Text style={[styles.prioritySegmentText, newTask.priority === priority.id && styles.prioritySegmentTextSelected]}>
-                            {priority.name}
-                          </Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  </View>
-
-                  {/* Reminder Toggle */}
-                  <View style={styles.inputGroup}>
-                      <View style={styles.reminderContainer}>
-                           <View style={styles.reminderLabelContainer}>
-                              <Ionicons name="notifications-outline" size={20} color={COLORS.grey} style={styles.reminderIcon}/>
-                              <Text style={styles.inputLabelNoMargin}>Set Reminder</Text>
-                           </View>
-                          <Switch
-                              trackColor={{ false: COLORS.mediumGrey, true: COLORS.primaryLight }}
-                              thumbColor={newTask.reminder ? COLORS.primary : COLORS.lightGrey}
-                              ios_backgroundColor={COLORS.mediumGrey}
-                              onValueChange={() => setNewTask({ ...newTask, reminder: !newTask.reminder })}
-                              value={newTask.reminder}
-                              style={styles.reminderSwitch}
-                          />
-                      </View>
-                  </View>
-
-                  {/* AI Suggestion Box */}
-                  <View style={styles.aiSuggestionsBox}>
-                     <View style={styles.aiSuggestionsHeader}>
-                      <Ionicons name="sparkles-outline" size={18} color={COLORS.accent} />
-                      <Text style={styles.aiSuggestionsTitle}>Quick Tip</Text>
-                    </View>
-                    <Text style={styles.aiSuggestionsText}>
-                      Consider setting a specific time for important tasks to stay on track.
-                    </Text>
-                  </View>
-
-                  {/* Spacer before buttons */}
-                  <View style={{ height: SPACING.LARGE }} />
-
-                </ScrollView>
-
-                {/* Modal Footer Buttons */}
-                <View style={styles.modalFooter}>
-                  <TouchableOpacity style={[styles.modalButton, styles.cancelButton]} onPress={() => setModalVisible(false)} activeOpacity={0.7}>
-                    <Text style={[styles.modalButtonText, styles.cancelButtonText]}>Cancel</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={[styles.modalButton, styles.addTaskButton]} onPress={addTask} activeOpacity={0.8}>
-                    <LinearGradient
-                      colors={[COLORS.primary, COLORS.accent]}
-                      style={styles.modalButtonGradient}
-                      start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
-                    >
-                      <Ionicons name="checkmark" size={20} color={COLORS.white} style={{ marginRight: SPACING.SMALL }}/>
-                      <Text style={[styles.modalButtonText, styles.addTaskButtonText]}>Add Task</Text>
-                    </LinearGradient>
-                  </TouchableOpacity>
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>Description</Text>
+                  <TextInput
+                    style={[styles.textInput, styles.textAreaInput]}
+                    placeholder="Add details (optional)"
+                    placeholderTextColor={COLORS.grey}
+                    multiline={true}
+                    value={newTask.description}
+                    onChangeText={(text) => setNewTask({ ...newTask, description: text })}
+                  />
                 </View>
+
+
+                <View style={[styles.inputGroup, styles.dateTimeRow]}>
+                  <View style={styles.pickerInputContainer}>
+                    <Text style={styles.inputLabel}>Date</Text>
+                    <TouchableOpacity style={styles.pickerButton} onPress={showDatepicker}>
+                      <Ionicons name="calendar-outline" size={20} color={COLORS.grey} style={styles.pickerIcon} />
+                      <Text style={styles.pickerButtonText}>
+                        {newTask.dateTime.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.pickerInputContainer}>
+                    <Text style={styles.inputLabel}>Time</Text>
+                    <TouchableOpacity style={styles.pickerButton} onPress={showTimepicker}>
+                      <Ionicons name="time-outline" size={20} color={COLORS.grey} style={styles.pickerIcon} />
+                      <Text style={styles.pickerButtonText}>
+                        {newTask.dateTime.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', hour12: true })}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+
+                {showPicker && (
+                  <View>
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={pickerDate}
+                      mode={pickerMode}
+                      is24Hour={false}
+                      display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                      onChange={onPickerChange}
+                      minimumDate={new Date(new Date().getFullYear() - 1, 0, 1)}
+                      style={styles.dateTimePicker}
+                    />
+
+                    {showPicker && Platform.OS === 'ios' && pickerMode !== 'inline' && (
+                      <TouchableOpacity style={styles.iosPickerDoneButton} onPress={dismissIosPicker}>
+                        <Text style={styles.iosPickerDoneButtonText}>Done</Text>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                )}
+
+
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>Category</Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalSelector}>
+                    {TASK_CATEGORIES.map((category) => (
+                      <TouchableOpacity
+                        key={category.id}
+                        style={[
+                          styles.selectorChip,
+                          newTask.category === category.id && styles.selectorChipSelected,
+                          newTask.category === category.id && { backgroundColor: category.color + '20', borderColor: category.color }
+                        ]}
+                        onPress={() => setNewTask({ ...newTask, category: category.id })}
+                        activeOpacity={0.7}
+                      >
+                        <Ionicons name={category.icon} size={16} color={newTask.category === category.id ? category.color : COLORS.grey} style={styles.selectorIcon} />
+                        <Text style={[styles.selectorText, newTask.category === category.id && { color: category.color, fontWeight: FONT_WEIGHT.SEMIBOLD }]}>
+                          {category.name}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>Priority</Text>
+                  <View style={styles.priorityContainer}>
+                    {PRIORITIES.map((priority) => (
+                      <TouchableOpacity
+                        key={priority.id}
+                        style={[
+                          styles.prioritySegment,
+                          newTask.priority === priority.id && styles.prioritySegmentSelected,
+                          newTask.priority === priority.id && { backgroundColor: priority.color, borderColor: priority.color }
+                        ]}
+                        onPress={() => setNewTask({ ...newTask, priority: priority.id })}
+                        activeOpacity={0.7}
+                      >
+                        {newTask.priority !== priority.id && <View style={[styles.priorityDot, { backgroundColor: priority.color }]} />}
+                        <Text style={[styles.prioritySegmentText, newTask.priority === priority.id && styles.prioritySegmentTextSelected]}>
+                          {priority.name}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </View>
+
+
+                <View style={styles.inputGroup}>
+                  <View style={styles.reminderContainer}>
+                    <View style={styles.reminderLabelContainer}>
+                      <Ionicons name="notifications-outline" size={20} color={COLORS.grey} style={styles.reminderIcon} />
+                      <Text style={styles.inputLabelNoMargin}>Set Reminder</Text>
+                    </View>
+                    <Switch
+                      trackColor={{ false: COLORS.mediumGrey, true: COLORS.primaryLight }}
+                      thumbColor={newTask.reminder ? COLORS.primary : COLORS.lightGrey}
+                      ios_backgroundColor={COLORS.mediumGrey}
+                      onValueChange={() => setNewTask({ ...newTask, reminder: !newTask.reminder })}
+                      value={newTask.reminder}
+                      style={styles.reminderSwitch}
+                    />
+                  </View>
+                </View>
+
+
+                <View style={styles.aiSuggestionsBox}>
+                  <View style={styles.aiSuggestionsHeader}>
+                    <Ionicons name="sparkles-outline" size={18} color={COLORS.accent} />
+                    <Text style={styles.aiSuggestionsTitle}>Quick Tip</Text>
+                  </View>
+                  <Text style={styles.aiSuggestionsText}>
+                    Consider setting a specific time for important tasks to stay on track.
+                  </Text>
+                </View>
+
+
+                <View style={{ height: SPACING.LARGE }} />
+
+              </ScrollView>
+
+
+              <View style={styles.modalFooter}>
+                <TouchableOpacity style={[styles.modalButton, styles.cancelButton]} onPress={() => setModalVisible(false)} activeOpacity={0.7}>
+                  <Text style={[styles.modalButtonText, styles.cancelButtonText]}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.modalButton, styles.addTaskButton]} onPress={addTask} activeOpacity={0.8}>
+                  <LinearGradient
+                    colors={[COLORS.primary, COLORS.accent]}
+                    style={styles.modalButtonGradient}
+                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+                  >
+                    <Ionicons name="checkmark" size={20} color={COLORS.white} style={{ marginRight: SPACING.SMALL }} />
+                    <Text style={[styles.modalButtonText, styles.addTaskButtonText]}>Add Task</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
               </View>
             </View>
+          </View>
         </KeyboardAvoidingView>
       </Modal>
 
@@ -893,7 +893,7 @@ const PlannerScreen = () => {
 };
 
 
-// --- Styles ---
+
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -901,9 +901,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: COLORS.background, // Slightly off-white for the main background
+    backgroundColor: COLORS.background,
   },
-  // Header Styles
+
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -932,7 +932,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     paddingHorizontal: SPACING.SMALL,
   },
-  calendarIcon: { // Style for calendar icon in header
+  calendarIcon: {
     marginRight: SPACING.SMALL,
   },
   headerTitle: {
@@ -941,7 +941,7 @@ const styles = StyleSheet.create({
     color: COLORS.darkGrey,
     textAlign: 'center',
   },
-  // Calendar Styles
+
   calendarContainer: {
     backgroundColor: COLORS.white,
     borderBottomWidth: 1,
@@ -997,10 +997,10 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
   },
   todayDayItem: {
-     borderColor: COLORS.primary,
+    borderColor: COLORS.primary,
   },
   weekdayText: {
-    fontSize: FONT_SIZES.SMALL -1,
+    fontSize: FONT_SIZES.SMALL - 1,
     fontWeight: FONT_WEIGHT.MEDIUM,
     color: COLORS.grey,
     marginBottom: SPACING.XSMALL,
@@ -1020,61 +1020,61 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.BOLD,
   },
   miniCalendarDot: {
-      width: 6,
-      height: 6,
-      borderRadius: 3,
-      backgroundColor: COLORS.primary,
-      position: 'absolute',
-      bottom: 6,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: COLORS.primary,
+    position: 'absolute',
+    bottom: 6,
   },
-  // Summary Section Styles
+
   summaryContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      paddingHorizontal: SPACING.MEDIUM,
-      paddingVertical: SPACING.LARGE,
-      backgroundColor: COLORS.white,
-      marginTop: SPACING.MEDIUM,
-      marginHorizontal: SPACING.LARGE,
-      borderRadius: SPACING.MEDIUM,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.05,
-      shadowRadius: 4,
-      elevation: 3,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingHorizontal: SPACING.MEDIUM,
+    paddingVertical: SPACING.LARGE,
+    backgroundColor: COLORS.white,
+    marginTop: SPACING.MEDIUM,
+    marginHorizontal: SPACING.LARGE,
+    borderRadius: SPACING.MEDIUM,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 3,
   },
   summaryItem: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      flex: 1,
-      justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
   },
   summaryIconWrapper: {
-      width: 36,
-      height: 36,
-      borderRadius: 18,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginRight: SPACING.SMALL,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: SPACING.SMALL,
   },
   summaryCount: {
-      fontSize: FONT_SIZES.LARGE,
-      fontWeight: FONT_WEIGHT.BOLD,
-      color: COLORS.darkGrey,
-      lineHeight: FONT_SIZES.LARGE * 1.1,
+    fontSize: FONT_SIZES.LARGE,
+    fontWeight: FONT_WEIGHT.BOLD,
+    color: COLORS.darkGrey,
+    lineHeight: FONT_SIZES.LARGE * 1.1,
   },
   summaryLabel: {
-      fontSize: FONT_SIZES.SMALL,
-      color: COLORS.grey,
-      marginTop: 0,
+    fontSize: FONT_SIZES.SMALL,
+    color: COLORS.grey,
+    marginTop: 0,
   },
   summarySeparator: {
     width: 1,
     height: '60%',
     backgroundColor: COLORS.lightGrey,
   },
-  // AI Suggestions Section Styles
+
   suggestionsSection: {
     paddingTop: SPACING.LARGE,
     paddingBottom: SPACING.MEDIUM,
@@ -1133,13 +1133,13 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.SMALL,
     color: COLORS.grey,
   },
-  // Tasks Section Styles
+
   tasksSection: {
     paddingTop: SPACING.XLARGE,
     paddingHorizontal: SPACING.LARGE,
     flex: 1,
   },
-  // Task Item Styles
+
   taskItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1149,16 +1149,16 @@ const styles = StyleSheet.create({
     borderRadius: SPACING.MEDIUM,
     borderWidth: 1,
     borderColor: COLORS.lightGrey,
-    borderLeftWidth: 5, // More prominent border
+    borderLeftWidth: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.06,
     shadowRadius: 3,
     elevation: 2,
-    marginBottom: SPACING.SMALL, // Add margin between task items for better spacing
+    marginBottom: SPACING.SMALL,
   },
   taskItemCompleted: {
-    backgroundColor: COLORS.offWhite, // Use a slightly darker off-white for completed tasks
+    backgroundColor: COLORS.offWhite,
     opacity: 0.7,
   },
   taskCheckboxArea: {
@@ -1206,10 +1206,10 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   priorityDotSmall: {
-      width: 7,
-      height: 7,
-      borderRadius: 3.5,
-      marginRight: SPACING.XSMALL,
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
+    marginRight: SPACING.XSMALL,
   },
   priorityText: {
     fontSize: FONT_SIZES.SMALL - 1,
@@ -1252,7 +1252,7 @@ const styles = StyleSheet.create({
     color: COLORS.grey,
     fontWeight: FONT_WEIGHT.MEDIUM,
   },
-  // Empty State Styles
+
   emptyStateContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -1261,12 +1261,12 @@ const styles = StyleSheet.create({
     marginTop: SPACING.XLARGE,
     minHeight: 200,
   },
-   emptyStateTitle: {
-      fontSize: FONT_SIZES.XLARGE,
-      fontWeight: FONT_WEIGHT.SEMIBOLD,
-      color: COLORS.darkGrey,
-      marginBottom: SPACING.SMALL,
-   },
+  emptyStateTitle: {
+    fontSize: FONT_SIZES.XLARGE,
+    fontWeight: FONT_WEIGHT.SEMIBOLD,
+    color: COLORS.darkGrey,
+    marginBottom: SPACING.SMALL,
+  },
   emptyStateText: {
     fontSize: FONT_SIZES.MEDIUM,
     color: COLORS.grey,
@@ -1274,19 +1274,19 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.XLARGE,
   },
   emptyStateButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: COLORS.primaryLight,
-      paddingVertical: SPACING.MEDIUM,
-      paddingHorizontal: SPACING.XLARGE,
-      borderRadius: SPACING.LARGE,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.primaryLight,
+    paddingVertical: SPACING.MEDIUM,
+    paddingHorizontal: SPACING.XLARGE,
+    borderRadius: SPACING.LARGE,
   },
-   emptyStateButtonText: {
-       fontSize: FONT_SIZES.MEDIUM,
-       fontWeight: FONT_WEIGHT.SEMIBOLD,
-       color: COLORS.primary,
-   },
-  // Add Task Button (FAB) Styles
+  emptyStateButtonText: {
+    fontSize: FONT_SIZES.MEDIUM,
+    fontWeight: FONT_WEIGHT.SEMIBOLD,
+    color: COLORS.primary,
+  },
+
   addButton: {
     position: 'absolute',
     bottom: SPACING.XLARGE,
@@ -1305,7 +1305,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // Modal Styles
+
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -1327,13 +1327,13 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   modalHandle: {
-     width: 40,
-     height: 5,
-     backgroundColor: COLORS.mediumGrey,
-     borderRadius: 3,
-     alignSelf: 'center',
-     marginTop: SPACING.SMALL,
-     marginBottom: SPACING.MEDIUM,
+    width: 40,
+    height: 5,
+    backgroundColor: COLORS.mediumGrey,
+    borderRadius: 3,
+    alignSelf: 'center',
+    marginTop: SPACING.SMALL,
+    marginBottom: SPACING.MEDIUM,
   },
   modalHeader: {
     flexDirection: 'row',
@@ -1367,7 +1367,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
-   inputLabelNoMargin: {
+  inputLabelNoMargin: {
     fontSize: FONT_SIZES.MEDIUM,
     fontWeight: FONT_WEIGHT.MEDIUM,
     color: COLORS.darkGrey,
@@ -1388,47 +1388,47 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     paddingTop: SPACING.MEDIUM,
   },
-  // Date/Time Picker Styles
+
   dateTimeRow: {
-      flexDirection: 'row',
-      gap: SPACING.MEDIUM,
+    flexDirection: 'row',
+    gap: SPACING.MEDIUM,
   },
   pickerInputContainer: {
-     flex: 1,
+    flex: 1,
   },
   pickerButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: COLORS.lightGrey,
-      paddingHorizontal: SPACING.MEDIUM,
-      borderRadius: SPACING.MEDIUM,
-      borderWidth: 1,
-      borderColor: COLORS.mediumGrey,
-      height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.lightGrey,
+    paddingHorizontal: SPACING.MEDIUM,
+    borderRadius: SPACING.MEDIUM,
+    borderWidth: 1,
+    borderColor: COLORS.mediumGrey,
+    height: 50,
   },
   pickerIcon: {
     marginRight: SPACING.SMALL,
   },
   pickerButtonText: {
-      fontSize: FONT_SIZES.MEDIUM,
-      color: COLORS.darkGrey,
-      flex: 1,
+    fontSize: FONT_SIZES.MEDIUM,
+    color: COLORS.darkGrey,
+    flex: 1,
   },
   dateTimePicker: {
-     marginTop: SPACING.SMALL,
+    marginTop: SPACING.SMALL,
   },
   iosPickerDoneButton: {
-      alignItems: 'flex-end',
-      paddingVertical: SPACING.MEDIUM,
-      paddingHorizontal: SPACING.MEDIUM,
-      marginTop: SPACING.SMALL,
+    alignItems: 'flex-end',
+    paddingVertical: SPACING.MEDIUM,
+    paddingHorizontal: SPACING.MEDIUM,
+    marginTop: SPACING.SMALL,
   },
   iosPickerDoneButtonText: {
-      color: COLORS.primary,
-      fontSize: FONT_SIZES.LARGE,
-      fontWeight: FONT_WEIGHT.SEMIBOLD,
+    color: COLORS.primary,
+    fontSize: FONT_SIZES.LARGE,
+    fontWeight: FONT_WEIGHT.SEMIBOLD,
   },
-  // Horizontal Selectors (Category Chips) Styles
+
   horizontalSelector: {
     paddingVertical: SPACING.XSMALL,
   },
@@ -1447,14 +1447,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   selectorIcon: {
-      marginRight: SPACING.SMALL,
-   },
+    marginRight: SPACING.SMALL,
+  },
   selectorText: {
     fontSize: FONT_SIZES.SMALL,
     fontWeight: FONT_WEIGHT.MEDIUM,
     color: COLORS.grey,
   },
-  // Priority Selector (Segmented Control Style) Styles
+
   priorityContainer: {
     flexDirection: 'row',
     backgroundColor: COLORS.lightGrey,
@@ -1474,14 +1474,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   prioritySegmentSelected: {
-     backgroundColor: COLORS.white,
-     borderColor: 'transparent',
-     shadowColor: "#000",
-     shadowOffset: { width: 0, height: 1 },
-     shadowOpacity: 0.1,
-     shadowRadius: 2,
-     elevation: 2,
-     borderRadius: SPACING.MEDIUM,
+    backgroundColor: COLORS.white,
+    borderColor: 'transparent',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+    borderRadius: SPACING.MEDIUM,
   },
   priorityDot: {
     width: 8,
@@ -1495,10 +1495,10 @@ const styles = StyleSheet.create({
     color: COLORS.grey,
   },
   prioritySegmentTextSelected: {
-     fontWeight: FONT_WEIGHT.BOLD,
-     color: COLORS.darkGrey,
+    fontWeight: FONT_WEIGHT.BOLD,
+    color: COLORS.darkGrey,
   },
-  // Reminder Toggle Styles
+
   reminderContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1515,12 +1515,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   reminderIcon: {
-     marginRight: SPACING.SMALL,
+    marginRight: SPACING.SMALL,
   },
   reminderSwitch: {
-      transform: Platform.OS === 'ios' ? [{ scaleX: 0.9 }, { scaleY: 0.9 }] : [],
+    transform: Platform.OS === 'ios' ? [{ scaleX: 0.9 }, { scaleY: 0.9 }] : [],
   },
-  // AI Box in Modal Styles
+
   aiSuggestionsBox: {
     backgroundColor: COLORS.accentLight + '60',
     borderRadius: SPACING.MEDIUM,
@@ -1532,7 +1532,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   aiSuggestionsHeader: {
-     marginRight: SPACING.MEDIUM,
+    marginRight: SPACING.MEDIUM,
   },
   aiSuggestionsTitle: {},
   aiSuggestionsText: {
@@ -1542,7 +1542,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: FONT_WEIGHT.MEDIUM,
   },
-  // Modal Footer Styles
+
   modalFooter: {
     flexDirection: 'row',
     paddingTop: SPACING.MEDIUM,
@@ -1552,19 +1552,19 @@ const styles = StyleSheet.create({
     gap: SPACING.MEDIUM,
   },
   modalButton: {
-      flex: 1,
-      height: 52,
-      borderRadius: SPACING.LARGE,
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'row',
+    flex: 1,
+    height: 52,
+    borderRadius: SPACING.LARGE,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
   cancelButton: {
     backgroundColor: COLORS.mediumGrey + '40',
   },
   modalButtonText: {
-      fontSize: FONT_SIZES.MEDIUM,
-      fontWeight: FONT_WEIGHT.BOLD,
+    fontSize: FONT_SIZES.MEDIUM,
+    fontWeight: FONT_WEIGHT.BOLD,
   },
   cancelButtonText: {
     color: COLORS.grey,

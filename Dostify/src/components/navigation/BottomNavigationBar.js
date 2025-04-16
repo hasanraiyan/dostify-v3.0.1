@@ -1,12 +1,12 @@
-// BottomNavigationBar.js
+
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
-// --- Constants ---
-// Ideally, these should be imported from a shared constants file (e.g., src/constants.js)
-// to avoid duplication across your project.
+
+
+
 const COLORS = {
     primary: '#4A90E2',
     primaryLight: '#EAF2FB',
@@ -51,17 +51,11 @@ const SPACING = {
     XLARGE: 24,
     XXLARGE: 32,
 };
-// --- End Constants ---
 
-/**
- * A customizable bottom navigation bar component.
- *
- * @param {object} props - Component props.
- * @param {string} [props.activeRoute='Home'] - The name of the currently active route.
- * @param {function} [props.onNavigate=()=>{}] - Function called when a navigation item is pressed, receives the route name.
- */
+
+
 const BottomNavigationBar = ({ state, descriptors, navigation }) => {
-    // Define the navigation items based on the routes provided by React Navigation
+
     const navItems = state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -71,9 +65,9 @@ const BottomNavigationBar = ({ state, descriptors, navigation }) => {
                     ? options.title
                     : route.name;
 
-        // Map route names to icons (adjust as needed based on your actual icons/routes)
-        let iconName = 'help-circle-outline'; // Default icon
-        let activeIconName = 'help-circle'; // Default active icon
+
+        let iconName = 'help-circle-outline';
+        let activeIconName = 'help-circle';
         let isCenter = false;
 
         switch (route.name) {
@@ -85,7 +79,7 @@ const BottomNavigationBar = ({ state, descriptors, navigation }) => {
                 iconName = 'chat-processing-outline';
                 activeIconName = 'chat-processing';
                 break;
-            case 'Add': // Assuming you might add an 'Add' screen or handle it differently
+            case 'Add':
                 iconName = 'plus';
                 isCenter = true;
                 break;
@@ -110,10 +104,10 @@ const BottomNavigationBar = ({ state, descriptors, navigation }) => {
         };
     });
 
-    // Find the active route index
+
     const activeRouteIndex = state.index;
 
-    // Function to render each navigation item
+
     const renderNavItem = (item) => {
         const isActive = activeRouteIndex === item.index;
         const color = isActive ? COLORS.primary : COLORS.grey;
@@ -138,13 +132,13 @@ const BottomNavigationBar = ({ state, descriptors, navigation }) => {
             });
         };
 
-        // Handle the special center button
+
         if (item.isCenter) {
             return (
                 <TouchableOpacity
                     key={item.key}
                     style={styles.navButton}
-                    onPress={onPress} // Use React Navigation's onPress
+                    onPress={onPress}
                     onLongPress={onLongPress}
                     accessibilityRole="button"
                     accessibilityState={isActive ? { selected: true } : {}}
@@ -160,18 +154,18 @@ const BottomNavigationBar = ({ state, descriptors, navigation }) => {
                     >
                         <MaterialCommunityIcons name={item.icon} size={28} color={COLORS.white} />
                     </LinearGradient>
-                    {/* Optional: Add label below center button if needed */}
-                    {/* <Text style={[styles.navText, styles.navCenterText]}>{item.label}</Text> */}
+                    { }
+                    { }
                 </TouchableOpacity>
             );
         }
 
-        // Render regular navigation items
+
         return (
             <TouchableOpacity
                 key={item.key}
                 style={styles.navItem}
-                onPress={onPress} // Use React Navigation's onPress
+                onPress={onPress}
                 onLongPress={onLongPress}
                 accessibilityRole="button"
                 accessibilityState={isActive ? { selected: true } : {}}
@@ -185,17 +179,17 @@ const BottomNavigationBar = ({ state, descriptors, navigation }) => {
         );
     };
 
-    // Filter out the 'Add' button if it's meant to be handled differently
-    const displayItems = navItems; //.filter(item => !item.isCenter); // Example: filter if 'Add' is not a screen
+
+    const displayItems = navItems;
 
 
 
-    // Determine if the tab bar should be hidden (e.g., on ChatScreen)
+
     const activeRouteName = state.routes[activeRouteIndex].name;
-    const hideTabBar = activeRouteName === 'Chat' || activeRouteName === 'Planner'; // Example condition
+    const hideTabBar = activeRouteName === 'Chat' || activeRouteName === 'Planner';
 
     if (hideTabBar) {
-        return null; // Don't render the tab bar
+        return null;
     }
 
     return (

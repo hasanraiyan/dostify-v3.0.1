@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { config } from '../constants/constant'; 
+import { config } from '../constants/constant';
 
 const useServerStatus = () => {
   const [data, setData] = useState("Checking server...");

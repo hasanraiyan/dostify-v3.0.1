@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.XLARGE,
     fontWeight: FONT_WEIGHT.BOLD,
     color: COLORS.darkGrey,
-    marginBottom: SPACING.MEDIUM, 
+    marginBottom: SPACING.MEDIUM,
   },
   moodContainer: {
     flexDirection: 'row',

@@ -1,6 +1,6 @@
 export const config = {
-    // BACKEND_SERVER_URL : "https://server-0xro.onrender.com",
-    BACKEND_SERVER_URL: "http://localhost:8000",
+    BACKEND_SERVER_URL : "https://server-0xro.onrender.com",
+    // BACKEND_SERVER_URL: "http://localhost:8000",
 };
 
 export const STORAGE_KEYS = {

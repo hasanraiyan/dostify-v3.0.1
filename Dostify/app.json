@@ -30,6 +30,12 @@
         "projectId": "ce4ca562-cfa3-48ca-abaf-b033adaafeae"
       }
     },
-    "owner": "hasanraiyan"
+    "owner": "hasanraiyan",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ce4ca562-cfa3-48ca-abaf-b033adaafeae"
+    }
   }
 }

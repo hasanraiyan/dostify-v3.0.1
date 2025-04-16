@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState } from 'react';
 
-// Create the Drawer Status Context
+
 const DrawerStatusContext = createContext();
 
-// Create a Provider component
+
 export const DrawerStatusProvider = ({ children }) => {
     const [isDrawerOpen, setDrawerOpen] = useState(false);
 
@@ -17,7 +17,7 @@ export const DrawerStatusProvider = ({ children }) => {
     );
 };
 
-// Custom hook to use the Drawer Status Context
+
 export const useDrawerStatus = () => {
     return useContext(DrawerStatusContext);
 };

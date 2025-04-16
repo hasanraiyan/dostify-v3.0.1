@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-const SplashScreen = ({ navigation }) => { // Update parameter to include navigation
-  
+const SplashScreen = ({ navigation }) => {
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('LoginScreen'); // Navigate to LoginScreen after timeout
-    }, 3000); // Display splash for 3 seconds
+      navigation.replace('LoginScreen');
+    }, 3000);
 
-    return () => clearTimeout(timer); // Cleanup on unmount
+    return () => clearTimeout(timer);
   }, [navigation]);
 
-  return ( // Ensure correct placement of the return statement
+  return (
     <View style={styles.container}>
-      <Image 
-        source={{ uri: 'https://dostify-climb.vercel.app/icon-removebg-preview.png' }} // Replace with your logo URL
+      <Image
+        source={{ uri: 'https://dostify-climb.vercel.app/icon-removebg-preview.png' }}
         style={styles.logo}
       />
       <Text style={styles.text}>Welcome to Dostify</Text>
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff', // Change to your preferred background color
+    backgroundColor: '#ffffff',
   },
   logo: {
     width: 100,

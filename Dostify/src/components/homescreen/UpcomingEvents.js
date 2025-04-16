@@ -26,7 +26,7 @@ const UpcomingEvents = React.memo(({ events }) => (
             key={index}
             style={styles.eventItem}
             activeOpacity={0.7}
-            onPress={() => console.log(`Pressed Task: ${event.title}`)} // Keep onPress or pass handler
+            onPress={() => console.log(`Pressed Task: ${event.title}`)}
           >
             <View style={[styles.eventPriorityIndicator, { backgroundColor: event.color }]} />
             <View style={styles.eventContent}>
@@ -49,9 +49,9 @@ const UpcomingEvents = React.memo(({ events }) => (
 ));
 
 const styles = StyleSheet.create({
-  // NOTE: sectionContainer & sectionTitle are duplicated here.
+
   sectionContainer: {
-    marginBottom: SPACING.XLARGE, // Was implicitly 0 before, adding back section margin
+    marginBottom: SPACING.XLARGE,
   },
   sectionHeaderRow: {
     flexDirection: 'row',
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.MEDIUM,
   },
   upcomingEventsContainer: {
-    // Container for the list or the 'no events' view
+
   },
   eventItem: {
     flexDirection: 'row',
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.grey,
     fontSize: FONT_SIZES.MEDIUM,
-    marginTop: SPACING.SMALL, // Adjusted from marginBottom on icon
+    marginTop: SPACING.SMALL,
   },
 });
 

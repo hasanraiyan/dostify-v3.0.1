@@ -15,7 +15,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-// Make sure these paths are correct relative to your file structure
+
 import { FONT_SIZES, SPACING, APP_INFO } from '../../constants/constant';
 import { config } from '../../constants/constant';
 import { COLORS } from '../../constants/loginConstant';
@@ -23,7 +23,7 @@ import { COLORS } from '../../constants/loginConstant';
 const theme = COLORS.LIGHT;
 const screenHeight = Dimensions.get('window').height;
 
-// --- Styles --- (Indentation Corrected)
+
 const styles = StyleSheet.create({
   keyboardAvoidingContainer: {
     flex: 1,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   formContainer: {
-    // Spacing handled internally by inputWrapper
+
   },
   inputWrapper: {
     marginBottom: SPACING.MEDIUM
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   buttonContainer: {
-    // Container for the button
+
   },
   loginButton: {
     width: '100%',
@@ -127,17 +127,17 @@ const styles = StyleSheet.create({
 
 const SignupScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
-  const [fullName, setFullName] = useState(''); // State variable remains 'fullName' for clarity in the component
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState({}); // Holds field-specific errors { username: '...', email: '...' }
-  const [formError, setFormError] = useState(''); // Separate state for general form error message
+  const [errors, setErrors] = useState({});
+  const [formError, setFormError] = useState('');
 
-  // Animation values
+
   const fadeAnimLogo = useRef(new Animated.Value(0)).current;
   const fadeAnimHeader = useRef(new Animated.Value(0)).current;
   const fadeAnimSubHeader = useRef(new Animated.Value(0)).current;
@@ -169,7 +169,7 @@ const SignupScreen = ({ navigation }) => {
   const validateForm = () => {
     const newErrors = {};
     if (!username.trim()) newErrors.username = 'Username is required';
-    // Use 'Full Name' in the UI error message, but the state is fullName
+
     if (!fullName.trim()) newErrors.fullName = 'Full Name is required';
     if (!email.trim()) {
       newErrors.email = 'Email is required';
@@ -188,16 +188,16 @@ const SignupScreen = ({ navigation }) => {
     } else if (password !== confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
-    setErrors(newErrors); // Set field-specific errors
-    setFormError(''); // Clear general form error on new validation
+    setErrors(newErrors);
+    setFormError('');
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSignup = useCallback(async () => {
     if (validateForm() && !isLoading) {
       setIsLoading(true);
-      setErrors({}); // Clear specific field errors
-      setFormError(''); // Clear general form error
+      setErrors({});
+      setFormError('');
       try {
         const response = await fetch(config.BACKEND_SERVER_URL + '/auth/register', {
           method: 'POST',
@@ -213,71 +213,71 @@ const SignupScreen = ({ navigation }) => {
           }),
         });
 
-        // Try parsing JSON regardless of status code, as errors might be in the body
+
         let data = null;
         try {
-            data = await response.json();
+          data = await response.json();
         } catch (jsonError) {
-            console.warn("Could not parse JSON response:", jsonError);
-            // Handle cases where response is not JSON (e.g., plain text error, HTML error page)
-            if (!response.ok) {
-                 const textResponse = await response.text(); // Attempt to read as text
-                 setFormError(`Server error (${response.status}): ${textResponse.substring(0, 100)}...`); // Show snippet
-            } else {
-                 setFormError(`An unexpected response format was received (${response.status}).`);
-            }
-            setIsLoading(false);
-            return; // Stop execution
+          console.warn("Could not parse JSON response:", jsonError);
+
+          if (!response.ok) {
+            const textResponse = await response.text();
+            setFormError(`Server error (${response.status}): ${textResponse.substring(0, 100)}...`);
+          } else {
+            setFormError(`An unexpected response format was received (${response.status}).`);
+          }
+          setIsLoading(false);
+          return;
         }
 
 
-        if (response.ok) { // Status 200-299
+        if (response.ok) {
           console.log('Registration successful:', data);
           navigation.navigate('LoginScreen');
         } else {
-          // Handle known error structures (like the one you received)
+
           console.error('Registration failed:', response.status, data);
-          let errorMessage = `Registration failed (${response.status}). Please try again.`; // Default
+          let errorMessage = `Registration failed (${response.status}). Please try again.`;
           let fieldErrors = {};
 
           if (data && typeof data === 'object') {
-            // Use server message if available and it's a string
+
             if (data.message && typeof data.message === 'string') {
-               errorMessage = data.message;
-            } else if (data.detail && typeof data.detail === 'string') { // Handle DRF 'detail'
-               errorMessage = data.detail;
-            } else if (data.error && typeof data.error === 'string') { // Handle other 'error' fields
-               errorMessage = data.error;
+              errorMessage = data.message;
+            } else if (data.detail && typeof data.detail === 'string') {
+              errorMessage = data.detail;
+            } else if (data.error && typeof data.error === 'string') {
+              errorMessage = data.error;
             }
 
-            // Check for field-specific errors (adapt if your backend sends them differently)
+
             if (data.errors && typeof data.errors === 'object' && !Array.isArray(data.errors)) {
-                // Map backend field names to frontend state names if needed
-                fieldErrors = { ...data.errors };
-                // If there are field errors, maybe don't show a generic form error
-                 if (Object.keys(fieldErrors).length > 0) {
-                    errorMessage = ''; // Clear generic message if specific errors exist
-                 }
+
+              fieldErrors = { ...data.errors };
+
+              if (Object.keys(fieldErrors).length > 0) {
+                errorMessage = '';
+              }
             }
-             // Specific handling for the 400 error message you received
+
             if (response.status === 400 && data.message && data.message.includes("required")) {
-                 errorMessage = data.message; // Use the specific message from backend
+              errorMessage = data.message;
             }
           }
 
-          setErrors(fieldErrors); // Set any field-specific errors
-          setFormError(errorMessage); // Set the general form error message (always a string)
+          setErrors(fieldErrors);
+          setFormError(errorMessage);
         }
       } catch (error) {
         console.error('Signup network/fetch error:', error);
-        setErrors({}); // Clear specific errors
-        // Ensure formError is always a string
+        setErrors({});
+
         setFormError('Cannot connect to the server. Please check your connection and try again.');
       } finally {
         setIsLoading(false);
       }
     }
-  }, [username, email, password, confirmPassword, fullName, navigation, isLoading]); // Keep fullName dependency for validation
+  }, [username, email, password, confirmPassword, fullName, navigation, isLoading]);
 
   const togglePasswordVisibility = useCallback(() => setPasswordVisible(prev => !prev), []);
   const toggleConfirmPasswordVisibility = useCallback(() => setConfirmPasswordVisible(prev => !prev), []);
@@ -295,7 +295,7 @@ const SignupScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Header Section */}
+        
         <Animated.View style={[styles.headerContainer, { opacity: fadeAnimLogo }]}>
           <Image
             source={require('../../../assets/android/mipmap-xxxhdpi/ic_launcher.png')}
@@ -312,9 +312,9 @@ const SignupScreen = ({ navigation }) => {
           </Text>
         </Animated.View>
 
-        {/* Form Section */}
+        
         <View style={styles.formContainer}>
-          {/* Username Input */}
+          
           <Animated.View style={[styles.inputWrapper, { opacity: fadeAnimUser }]}>
             <View style={[styles.inputContainer, { borderColor: errors.username ? theme.error : theme.border }]}>
               <Ionicons name="person-circle-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
@@ -332,7 +332,7 @@ const SignupScreen = ({ navigation }) => {
             {errors.username && <Text style={[styles.errorText, { color: theme.error }]}>{errors.username}</Text>}
           </Animated.View>
 
-          {/* Full Name Input */}
+          
           <Animated.View style={[styles.inputWrapper, { opacity: fadeAnimFullName }]}>
             <View style={[styles.inputContainer, { borderColor: errors.fullName ? theme.error : theme.border }]}>
               <Ionicons name="person-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
@@ -350,7 +350,7 @@ const SignupScreen = ({ navigation }) => {
             {errors.fullName && <Text style={[styles.errorText, { color: theme.error }]}>{errors.fullName}</Text>}
           </Animated.View>
 
-          {/* Email Input */}
+          
           <Animated.View style={[styles.inputWrapper, { opacity: fadeAnimEmail }]}>
             <View style={[styles.inputContainer, { borderColor: errors.email ? theme.error : theme.border }]}>
               <Ionicons name="mail-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
@@ -369,7 +369,7 @@ const SignupScreen = ({ navigation }) => {
             {errors.email && <Text style={[styles.errorText, { color: theme.error }]}>{errors.email}</Text>}
           </Animated.View>
 
-          {/* Password Input */}
+          
           <Animated.View style={[styles.inputWrapper, { opacity: fadeAnimPass }]}>
             <View style={[styles.inputContainer, { borderColor: errors.password ? theme.error : theme.border }]}>
               <Ionicons name="lock-closed-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
@@ -391,7 +391,7 @@ const SignupScreen = ({ navigation }) => {
             {errors.password && <Text style={[styles.errorText, { color: theme.error }]}>{errors.password}</Text>}
           </Animated.View>
 
-          {/* Confirm Password Input */}
+          
           <Animated.View style={[styles.inputWrapper, { opacity: fadeAnimConfirmPass }]}>
             <View style={[styles.inputContainer, { borderColor: errors.confirmPassword ? theme.error : theme.border }]}>
               <Ionicons name="lock-closed-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
@@ -414,17 +414,17 @@ const SignupScreen = ({ navigation }) => {
             {errors.confirmPassword && <Text style={[styles.errorText, { color: theme.error }]}>{errors.confirmPassword}</Text>}
           </Animated.View>
 
-          {/* This ensures we only render if formError is a non-empty string */}
+          
           {!!formError && (
             <Animated.View style={{ opacity: fadeAnimButton }}>
-                <Text style={[styles.errorText, styles.formError, { color: theme.error }]}>
-                  {formError}
-                </Text>
+              <Text style={[styles.errorText, styles.formError, { color: theme.error }]}>
+                {formError}
+              </Text>
             </Animated.View>
           )}
         </View>
 
-        {/* Button Section */}
+        
         <Animated.View style={[styles.buttonContainer, { opacity: fadeAnimButton }]}>
           <TouchableOpacity
             style={[
@@ -448,9 +448,9 @@ const SignupScreen = ({ navigation }) => {
           </TouchableOpacity>
         </Animated.View>
 
-        {/* Sign In Navigation */}
+        
         <Animated.View style={[styles.signupContainer, { opacity: fadeAnimSignin }]}>
-          {/* No stray text here */}
+          
           <Text style={[styles.signupText, { color: theme.textSecondary }]}>Already have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')} accessibilityRole="link" accessibilityLabel="Sign In">
             <Text style={[styles.signupLink, { color: theme.primary }]}>Sign In</Text>

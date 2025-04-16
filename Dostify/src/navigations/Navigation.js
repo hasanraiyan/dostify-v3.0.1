@@ -4,7 +4,7 @@ import AuthStack from "./AuthStack";
 import { useAuthContext } from "../context/authContext";
 
 const Navigation = () => {
-    const { isLoggedIn } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
   return (
     <>
       {isLoggedIn ? <DrawerNavigator /> : <AuthStack />}

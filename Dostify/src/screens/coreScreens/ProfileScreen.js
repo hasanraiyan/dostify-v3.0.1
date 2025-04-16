@@ -13,13 +13,13 @@ import {
     ActivityIndicator,
     Dimensions,
     Platform,
-    RefreshControl, // Added for pull-to-refresh
+    RefreshControl,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuthContext } from '../../context/authContext';
 
-// --- Constants, Colors, App Info, Default Avatar, Level Info Util (Keep as before) ---
+
 const { width } = Dimensions.get('window');
 const SPACING = { XSMALL: 4, SMALL: 8, MEDIUM: 12, LARGE: 16, XLARGE: 24, XXLARGE: 32, XXXLARGE: 40, };
 const FONT_SIZES = { XSMALL: 10, SMALL: 12, MEDIUM: 14, LARGE: 17, XLARGE: 20, XXLARGE: 28, HUGE: 34, };
@@ -47,55 +47,55 @@ const getLevelInfo = (pts) => {
     return levelData;
 };
 
-// --- Mock API Fetch Function (Keep as before, ensures consistent data structure) ---
+
 const fetchUserData = async () => {
     console.log("fetchUserData called");
-    await new Promise(resolve => setTimeout(resolve, 1200)); // Simulate network delay
-    // --- Mock Data Generation Logic (same as before) ---
+    await new Promise(resolve => setTimeout(resolve, 1200));
+
     const points = 175;
-    const consecutiveCheckInDays = 3; // Example value
+    const consecutiveCheckInDays = 3;
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
-    yesterday.setHours(0, 0, 0, 0); // Normalize yesterday to start of day
+    yesterday.setHours(0, 0, 0, 0);
 
-    // Simulate last check-in: Set to yesterday for testing check-in today
+
     const lastCheckInDate = yesterday;
-    // const lastCheckInDate = new Date(); // Use this to test already checked-in state
-    // lastCheckInDate.setHours(0,0,0,0);
-    // const lastCheckInDate = new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000); // Use this to test broken streak
-    // lastCheckInDate.setHours(0,0,0,0);
 
-    today.setHours(0, 0, 0, 0); // Normalize today to start of day
+
+
+
+
+    today.setHours(0, 0, 0, 0);
 
     const isCheckedInToday = lastCheckInDate.getTime() === today.getTime();
     let actualConsecutiveDays = 0;
     const oneDay = 24 * 60 * 60 * 1000;
 
-    // Calculate consecutive days based on lastCheckInDate relative to today
+
     if (lastCheckInDate.getTime() === today.getTime()) {
-        // Already checked in today, use the saved consecutive days
+
         actualConsecutiveDays = consecutiveCheckInDays;
     } else if (lastCheckInDate.getTime() === today.getTime() - oneDay) {
-        // Last check-in was yesterday, use the saved consecutive days (will increment upon check-in)
+
         actualConsecutiveDays = consecutiveCheckInDays;
     } else {
-        // Streak is broken (last check-in was before yesterday or never)
+
         actualConsecutiveDays = 0;
     }
 
-    // Generate dailyCheckInData based on actualConsecutiveDays *before* potential check-in
+
     const dailyCheckInData = Array.from({ length: 7 }, (_, i) => ({
         day: i + 1,
         reward: 10 + i * 2,
-        checked: !isCheckedInToday && (i + 1 <= actualConsecutiveDays), // Only show previous days as checked if not checked in today yet
-        // If already checked in today, mark today as checked too
+        checked: !isCheckedInToday && (i + 1 <= actualConsecutiveDays),
+
         ...(isCheckedInToday && { checked: i + 1 <= actualConsecutiveDays }),
     }));
 
     const currentLevelData = getLevelInfo(points);
 
-    const fetchedUserData = { // Renamed for clarity inside the function
+    const fetchedUserData = {
         id: 'user123',
         name: 'Raiyan Hasan',
         username: 'hasanraiyan',
@@ -109,32 +109,32 @@ const fetchUserData = async () => {
         pointsForNextLevel: currentLevelData.nextLevelPoints,
         badges: 12,
         website: APP_INFO.DEVELOPER_LINK,
-        // Store the *actual* consecutive days and check-in status based on calculation
+
         consecutiveCheckInDays: actualConsecutiveDays,
         dailyCheckInData: dailyCheckInData,
         isCheckedInToday: isCheckedInToday,
-        // Include a simulated last check-in date if needed for more complex logic,
-        // but derived `isCheckedInToday` and `actualConsecutiveDays` are often enough.
-        // lastCheckInTimestamp: lastCheckInDate.getTime(), // Example
+
+
+
     };
     console.log("fetchUserData - returning:", fetchedUserData.isCheckedInToday, fetchedUserData.consecutiveCheckInDays);
     return fetchedUserData;
 };
 
 
-// --- Daily Check-In Component (Revised Props) ---
-// Now takes specific data points it needs, derived from `userData` in the parent.
+
+
 const DailyCheckInSection = React.memo(({
-    dailyCheckInData, // Array of day objects
-    consecutiveCheckInDays, // Number of days
-    isCheckedInToday, // Boolean
-    handleCheckIn, // Function
+    dailyCheckInData,
+    consecutiveCheckInDays,
+    isCheckedInToday,
+    handleCheckIn,
 }) => {
 
-    // Basic validation for essential props
+
     if (!Array.isArray(dailyCheckInData)) {
         console.warn("DailyCheckInSection: Invalid or missing dailyCheckInData array.");
-        // Optionally render a placeholder or return null
+
         return (
             <View style={[styles.dailyCheckInSection, { backgroundColor: colors.card, alignItems: 'center' }]}>
                 <Text style={{ color: colors.textSecondary }}>Check-in data unavailable.</Text>
@@ -154,7 +154,7 @@ const DailyCheckInSection = React.memo(({
                         Keep the streak going for bigger rewards!
                     </Text>
                 </View>
-                {/* Optional decorative icon */}
+                
                 <MaterialCommunityIcons name="calendar-heart" size={36} color={colors.primaryLight} style={styles.calendarHeartIcon} />
             </View>
             <View style={styles.daysRow}>
@@ -187,7 +187,7 @@ const DailyCheckInSection = React.memo(({
                     isCheckedInToday ? styles.checkInButtonDisabled : styles.checkInButtonEnabled
                 ]}
                 disabled={isCheckedInToday}
-                onPress={handleCheckIn} // Use the passed-in handler
+                onPress={handleCheckIn}
                 activeOpacity={isCheckedInToday ? 1 : 0.7}
             >
                 <Text style={[
@@ -201,23 +201,23 @@ const DailyCheckInSection = React.memo(({
     );
 });
 
-// --- ProfileHeader Component (REVISED) ---
+
 const ProfileHeaderComponent = React.memo(({ userData, onEditProfile, onOpenLink }) => {
-    // Check if userData exists before trying to access its properties
+
     if (!userData) {
-        // Render a placeholder or null if no user data is available yet
-        // This prevents errors if the component renders before data loads
+
+
         return (
-            <View style={[styles.headerContainerRevamped, { backgroundColor: colors.card, height: 250 /* Approximate height */ }]}>
-                {/* Placeholder for loading state within the header space */}
-                <ActivityIndicator color={colors.primary} style={{ marginTop: 100 }}/>
+            <View style={[styles.headerContainerRevamped, { backgroundColor: colors.card, height: 250 }]}>
+                
+                <ActivityIndicator color={colors.primary} style={{ marginTop: 100 }} />
             </View>
         );
     }
 
     return (
         <View style={[styles.headerContainerRevamped, { backgroundColor: colors.card }]}>
-            {/* Cover Photo */}
+            
             <View style={styles.coverPhotoRevamped}>
                 <LinearGradient
                     colors={[colors.primary, colors.accent]}
@@ -227,18 +227,18 @@ const ProfileHeaderComponent = React.memo(({ userData, onEditProfile, onOpenLink
                 />
             </View>
 
-            {/* Content Area (Avatar, Name, Bio, etc.) */}
+            
             <View style={styles.headerContentRevamped}>
-                {/* Avatar */}
+                
                 <View style={styles.avatarContainerRevamped}>
                     <Image
                         source={userData.avatarUrl ? { uri: userData.avatarUrl } : defaultAvatar}
-                        style={[styles.avatarRevamped, { borderColor: colors.white }]} // White border for contrast
+                        style={[styles.avatarRevamped, { borderColor: colors.white }]}
                         accessibilityLabel={`${userData.name || 'User'}'s avatar`}
                     />
                 </View>
 
-                {/* Name and Username */}
+                
                 <View style={styles.identityContainerRevamped}>
                     <Text style={[styles.nameRevamped, { color: colors.text }]} numberOfLines={1} ellipsizeMode="tail">
                         {userData.name || 'User Name'}
@@ -248,14 +248,14 @@ const ProfileHeaderComponent = React.memo(({ userData, onEditProfile, onOpenLink
                     </Text>
                 </View>
 
-                {/* Bio */}
+                
                 {userData.bio ? (
                     <Text style={[styles.bioRevamped, { color: colors.textSecondary }]} numberOfLines={3} ellipsizeMode="tail">
                         {userData.bio}
                     </Text>
                 ) : null}
 
-                {/* Website Link */}
+                
                 {userData.website ? (
                     <TouchableOpacity
                         onPress={() => onOpenLink(userData.website)}
@@ -270,17 +270,17 @@ const ProfileHeaderComponent = React.memo(({ userData, onEditProfile, onOpenLink
                     </TouchableOpacity>
                 ) : null}
 
-                 {/* Edit Profile Button */}
-                 <TouchableOpacity
+                
+                <TouchableOpacity
                     style={[styles.editButtonRevamped, { backgroundColor: colors.primaryLight }]}
                     onPress={onEditProfile}
                     accessibilityRole="button"
                     accessibilityLabel="Edit Profile"
                     activeOpacity={0.7}
-                 >
+                >
                     <MaterialCommunityIcons name="pencil-outline" size={16} color={colors.primary} />
                     <Text style={[styles.editButtonTextRevamped, { color: colors.primary }]}>Edit Profile</Text>
-                 </TouchableOpacity>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -288,43 +288,43 @@ const ProfileHeaderComponent = React.memo(({ userData, onEditProfile, onOpenLink
 const ProfileHeader = ProfileHeaderComponent;
 
 
-// --- Profile Screen Component (Refactored State & Handlers) ---
+
 const ProfileScreen = ({ navigation }) => {
-    const [userData, setUserData] = useState(null); // Single source of truth for user data
+    const [userData, setUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [isRefreshing, setIsRefreshing] = useState(false); // For pull-to-refresh
+    const [isRefreshing, setIsRefreshing] = useState(false);
     const [error, setError] = useState(null);
     const { logout } = useAuthContext();
 
-    // --- Data Loading ---
+
     const loadData = useCallback(async (isRefresh = false) => {
         if (!isRefresh) setIsLoading(true);
         else setIsRefreshing(true);
-        setError(null); // Clear previous errors
+        setError(null);
         try {
             const data = await fetchUserData();
-            setUserData(data); // Set the single userData state
+            setUserData(data);
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
             setError(`Failed to load profile: ${errorMessage}`);
             console.error("Error fetching user data:", err);
-            // Keep existing data on refresh failure? Optional.
-            // if (isRefresh) setUserData(null); // Or clear data on refresh error
+
+
         } finally {
             if (!isRefresh) setIsLoading(false);
             else setIsRefreshing(false);
         }
-    }, []); // No dependencies needed for loadData itself
+    }, []);
 
     useEffect(() => {
-        loadData(); // Load data on initial mount
-    }, [loadData]); // Include loadData in dependency array
+        loadData();
+    }, [loadData]);
 
-    // --- Navigation & Actions ---
+
     const handleEditProfile = useCallback(() => {
         if (userData) {
-            console.log("Navigating to EditProfile with userData:", userData); // ADDED CONSOLE LOG
-            // navigation.navigate('EditProfile', { userData }); // Pass current data
+            console.log("Navigating to EditProfile with userData:", userData);
+
         } else {
             Alert.alert("Error", "User data not available to edit.");
         }
@@ -358,47 +358,47 @@ const ProfileScreen = ({ navigation }) => {
     }, []);
 
     const navigateTo = useCallback((screen, params = {}) => {
-        console.log("Navigating to:", screen, "with params:", params); // ADDED CONSOLE LOG
+        console.log("Navigating to:", screen, "with params:", params);
         navigation.navigate(screen, params);
     }, [navigation]);
 
     const handleRetry = useCallback(() => {
-        loadData(); // Retry loading data
+        loadData();
     }, [loadData]);
 
-    // --- Check-In Handler (Refactored) ---
+
     const handleCheckIn = useCallback(async () => {
-        // Prevent check-in if already done or no user data
+
         if (!userData || userData.isCheckedInToday) return;
 
-        // Optimistic UI update (optional but good UX)
-        // You could temporarily update the state here to show 'checking in...'
-        // For simplicity, we'll wait for the simulated delay
+
+
+
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 400)); // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 400));
 
-            // Calculate updates based on *current* userData state
+
             const currentConsecutiveDays = userData.consecutiveCheckInDays ?? 0;
             const newConsecutiveDays = currentConsecutiveDays + 1;
 
-            // Find today's reward (index is `currentConsecutiveDays` because it's 0-indexed and we're checking in *for* the next day)
+
             const todayRewardData = userData.dailyCheckInData?.[currentConsecutiveDays];
-            const rewardPoints = todayRewardData?.reward || 10; // Default reward if data is missing
+            const rewardPoints = todayRewardData?.reward || 10;
 
             const currentPoints = userData.points ?? 0;
             const newPoints = currentPoints + rewardPoints;
             const newLevelInfo = getLevelInfo(newPoints);
 
-            // Update the daily check-in array to mark the newly checked-in day
+
             const newDailyData = userData.dailyCheckInData?.map(d => ({
                 ...d,
-                checked: d.day <= newConsecutiveDays, // Mark all days up to the new count as checked
-            })) || []; // Safeguard against null/undefined dailyCheckInData
+                checked: d.day <= newConsecutiveDays,
+            })) || [];
 
-            // Update the single userData state object
+
             setUserData(prevData => ({
-                ...prevData, // Keep existing data
+                ...prevData,
                 points: newPoints,
                 level: newLevelInfo.name,
                 levelNumber: newLevelInfo.number,
@@ -406,28 +406,28 @@ const ProfileScreen = ({ navigation }) => {
                 pointsForNextLevel: newLevelInfo.nextLevelPoints,
                 consecutiveCheckInDays: newConsecutiveDays,
                 dailyCheckInData: newDailyData,
-                isCheckedInToday: true, // Mark as checked in
+                isCheckedInToday: true,
             }));
 
             Alert.alert("Check-in Successful!", `You earned ${rewardPoints} points! Streak: ${newConsecutiveDays} days.`);
 
         } catch (err) {
-            // Revert optimistic UI if implemented, show error
+
             Alert.alert("Check-in Failed", "Could not check in. Please try again.");
             console.error("Check-in failed:", err);
-            // No need to revert state here as we update only on success after the delay
+
         }
-    }, [userData]); // Dependency is userData, as all calculations depend on it
+    }, [userData]);
 
 
-    // --- Memoized UI Sections ---
-    // These components read directly from the `userData` state.
-    // No changes needed here unless the structure of `userData` was fundamentally altered.
+
+
+
 
 
     const StatsSection = React.memo(() => (
         <View style={[styles.statsContainer, { backgroundColor: colors.card }]}>
-            {/* Stat Item 1: Points */}
+            
             <View style={styles.statItem}>
                 <MaterialCommunityIcons name="star-circle-outline" size={22} color={colors.accent} style={styles.statIcon} />
                 <View style={styles.statTextContainer}>
@@ -436,7 +436,7 @@ const ProfileScreen = ({ navigation }) => {
                 </View>
             </View>
             <View style={[styles.statDivider, { backgroundColor: colors.border }]} />
-            {/* Stat Item 2: Level */}
+            
             <View style={styles.statItem}>
                 <MaterialCommunityIcons name="trophy-award" size={22} color={colors.warning} style={styles.statIcon} />
                 <View style={styles.statTextContainer}>
@@ -445,7 +445,7 @@ const ProfileScreen = ({ navigation }) => {
                 </View>
             </View>
             <View style={[styles.statDivider, { backgroundColor: colors.border }]} />
-            {/* Stat Item 3: Badges */}
+            
             <View style={styles.statItem}>
                 <MaterialCommunityIcons name="seal-variant" size={22} color={colors.success} style={styles.statIcon} />
                 <View style={styles.statTextContainer}>
@@ -457,40 +457,40 @@ const ProfileScreen = ({ navigation }) => {
     ));
 
     const AchievementsSection = React.memo(() => {
-        // Derive progress values directly from userData
+
         const points = userData?.points ?? 0;
         const levelName = userData?.level || 'Beginner';
         const levelNumber = userData?.levelNumber || 1;
         const currentLevelPoints = userData?.pointsForCurrentLevel ?? 0;
-        const nextLevelPoints = userData?.pointsForNextLevel ?? (currentLevelPoints + 100); // Handle potential undefined next level points
+        const nextLevelPoints = userData?.pointsForNextLevel ?? (currentLevelPoints + 100);
 
-        // Calculate progress, handling max level (Infinity)
+
         const pointsInLevel = points - currentLevelPoints;
-        const pointsRangeForLevel = nextLevelPoints === Infinity ? pointsInLevel : Math.max(1, nextLevelPoints - currentLevelPoints); // Avoid division by zero or negative range
+        const pointsRangeForLevel = nextLevelPoints === Infinity ? pointsInLevel : Math.max(1, nextLevelPoints - currentLevelPoints);
         const progressPercent = nextLevelPoints === Infinity
-            ? 100 // Max level = 100%
-            : Math.max(0, Math.min(100, (pointsInLevel / pointsRangeForLevel) * 100)); // Clamp between 0 and 100
+            ? 100
+            : Math.max(0, Math.min(100, (pointsInLevel / pointsRangeForLevel) * 100));
 
         const pointsNeededText = nextLevelPoints === Infinity ? 'Max Level' : `${nextLevelPoints}`;
         const badgeCount = userData?.badges ?? 0;
 
         return (
             <View style={[styles.achievementsContainer, { backgroundColor: colors.card }]}>
-                {/* Header */}
+                
                 <View style={styles.achievementHeader}>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>Progress</Text>
-                    {/* Show 'Details' link only if there's something to show (badges or level > 1) */}
+                    
                     {(badgeCount > 0 || levelNumber > 1) && (
                         <TouchableOpacity onPress={() => {
-                            console.log("Navigating to Achievements from Achievements Section"); // ADDED CONSOLE LOG
-                            // navigateTo('Achievements');
+                            console.log("Navigating to Achievements from Achievements Section");
+
                         }} activeOpacity={0.7}>
                             <Text style={[styles.seeAllText, { color: colors.primary }]}>Details</Text>
                         </TouchableOpacity>
                     )}
                 </View>
 
-                {/* Level Progress */}
+                
                 <View style={styles.levelProgressSection}>
                     <View style={styles.levelInfo}>
                         <View style={[styles.levelIconContainer, { backgroundColor: colors.warningLight }]}>
@@ -505,7 +505,7 @@ const ProfileScreen = ({ navigation }) => {
                     </View>
                     <View style={[styles.progressContainer, { backgroundColor: colors.lightGrey }]}>
                         <LinearGradient
-                            colors={progressPercent > 0 ? [colors.primaryLight, colors.primary] : [colors.lightGrey, colors.lightGrey]} // Show gradient only if progress > 0
+                            colors={progressPercent > 0 ? [colors.primaryLight, colors.primary] : [colors.lightGrey, colors.lightGrey]}
                             style={[styles.progressBar, { width: `${progressPercent}%` }]}
                             start={{ x: 0, y: 0.5 }}
                             end={{ x: 1, y: 0.5 }}
@@ -513,19 +513,19 @@ const ProfileScreen = ({ navigation }) => {
                     </View>
                 </View>
 
-                {/* Badges Section (conditional) */}
+                
                 {badgeCount > 0 && (
                     <View style={styles.badgesSection}>
                         <Text style={[styles.badgesTitle, { color: colors.textSecondary }]}>Recent Badges ({badgeCount})</Text>
                         <View style={styles.badgesRow}>
-                            {/* --- Placeholder Badges --- */}
-                            {/* Replace with actual badge data mapping when available */}
+                            
+                            
                             <View style={[styles.badgeCircle, { backgroundColor: colors.successLight }]}><MaterialCommunityIcons name="check-decagram" size={20} color={colors.success} /></View>
                             <View style={[styles.badgeCircle, { backgroundColor: colors.warningLight }]}><MaterialCommunityIcons name="fire" size={20} color={colors.warning} /></View>
                             <View style={[styles.badgeCircle, { backgroundColor: colors.accentLight }]}><MaterialCommunityIcons name="star-four-points-outline" size={20} color={colors.accent} /></View>
                             {badgeCount >= 4 && <View style={[styles.badgeCircle, { backgroundColor: colors.primaryLight }]}><MaterialCommunityIcons name="account-heart-outline" size={20} color={colors.primary} /></View>}
-                            {/* Add indicator if more badges exist than shown */}
-                            {/* {badgeCount > 4 && <Text>...</Text>} */}
+                            
+                            
                         </View>
                     </View>
                 )}
@@ -533,7 +533,7 @@ const ProfileScreen = ({ navigation }) => {
         );
     });
 
-    // Settings Row Component (No changes needed)
+
     const SettingsRow = React.memo(({ iconName, label, onPress, isDestructive = false }) => (
         <TouchableOpacity
             style={[styles.settingsRow, { borderBottomColor: colors.border }]}
@@ -558,53 +558,53 @@ const ProfileScreen = ({ navigation }) => {
             ]}>
                 {label}
             </Text>
-            {/* Show chevron only for non-destructive actions */}
+            
             {!isDestructive && (
                 <MaterialCommunityIcons name="chevron-right" size={22} color={colors.grey} />
             )}
         </TouchableOpacity>
     ));
 
-    // Settings Section (No changes needed)
+
     const SettingsSection = React.memo(() => (
         <View style={[styles.settingsSection, { backgroundColor: colors.card }]}>
             <Text style={[styles.sectionTitle, styles.settingsSectionTitle]}>Settings & More</Text>
             <SettingsRow iconName="bell-outline" label="Notifications" onPress={() => {
-                console.log("Navigating to NotificationSettings from Settings Section"); // ADDED CONSOLE LOG
-                // navigateTo('NotificationSettings');
+                console.log("Navigating to NotificationSettings from Settings Section");
+
             }} />
             <SettingsRow iconName="account-cog-outline" label="Learning Profile" onPress={() => {
-                console.log("Navigating to LearningProfile from Settings Section"); // ADDED CONSOLE LOG
-                // navigateTo('LearningProfile');
+                console.log("Navigating to LearningProfile from Settings Section");
+
             }} />
             <SettingsRow iconName="shield-lock-outline" label="Security & Account" onPress={() => {
-                console.log("Navigating to SecuritySettings from Settings Section"); // ADDED CONSOLE LOG
-                // navigateTo('SecuritySettings');
+                console.log("Navigating to SecuritySettings from Settings Section");
+
             }} />
             <SettingsRow iconName="eye-off-outline" label="Privacy" onPress={() => {
-                console.log("Navigating to PrivacySettings from Settings Section"); // ADDED CONSOLE LOG
-                // navigateTo('PrivacySettings');
+                console.log("Navigating to PrivacySettings from Settings Section");
+
             }} />
             <SettingsRow iconName="palette-outline" label="Appearance" onPress={() => {
-                console.log("Navigating to AppearanceSettings from Settings Section"); // ADDED CONSOLE LOG
-                // navigateTo('AppearanceSettings');
+                console.log("Navigating to AppearanceSettings from Settings Section");
+
             }} />
             <SettingsRow iconName="lifebuoy" label="Crisis Resources" onPress={() => {
-                console.log("Navigating to CrisisResources from Settings Section"); // ADDED CONSOLE LOG
-                // navigateTo('CrisisResources');
+                console.log("Navigating to CrisisResources from Settings Section");
+
             }} />
             <SettingsRow iconName="information-outline" label="About Dostify" onPress={() => {
-                console.log("Navigating to AboutApp from Settings Section"); // ADDED CONSOLE LOG
-                // navigateTo('AboutApp');
+                console.log("Navigating to AboutApp from Settings Section");
+
             }} />
             <SettingsRow iconName="logout-variant" label="Logout" onPress={handleLogout} isDestructive={true} />
         </View>
     ));
 
-    // --- Render Logic ---
 
-    // Loading State
-    if (isLoading && !userData) { // Show full screen loader only on initial load
+
+
+    if (isLoading && !userData) {
         return (
             <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
                 <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
@@ -616,7 +616,7 @@ const ProfileScreen = ({ navigation }) => {
         );
     }
 
-    // Error State (if data failed to load initially)
+
     if (error && !userData) {
         return (
             <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
@@ -633,24 +633,24 @@ const ProfileScreen = ({ navigation }) => {
         );
     }
 
-    // Handle case where loading finished but data is still null (should ideally not happen if fetch succeeds/errors)
-     if (!userData && !isLoading) {
-         return (
+
+    if (!userData && !isLoading) {
+        return (
             <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
-                 <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
-                 <View style={styles.loadingContainer}>
-                     <MaterialCommunityIcons name="account-question-outline" size={48} color={colors.grey} />
-                     <Text style={[styles.loadingText, { color: colors.textSecondary }]}>Could not load profile data.</Text>
-                     <TouchableOpacity style={[styles.retryButton, { backgroundColor: colors.primary, marginTop: SPACING.XLARGE }]} onPress={handleRetry} activeOpacity={0.8}>
-                         <Text style={styles.retryButtonText}>Retry</Text>
-                     </TouchableOpacity>
-                 </View>
-             </SafeAreaView>
+                <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
+                <View style={styles.loadingContainer}>
+                    <MaterialCommunityIcons name="account-question-outline" size={48} color={colors.grey} />
+                    <Text style={[styles.loadingText, { color: colors.textSecondary }]}>Could not load profile data.</Text>
+                    <TouchableOpacity style={[styles.retryButton, { backgroundColor: colors.primary, marginTop: SPACING.XLARGE }]} onPress={handleRetry} activeOpacity={0.8}>
+                        <Text style={styles.retryButtonText}>Retry</Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
         );
-     }
+    }
 
 
-    // Success State - Render Profile
+
     return (
         <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
             <StatusBar barStyle='dark-content' backgroundColor={colors.background} />
@@ -659,26 +659,26 @@ const ProfileScreen = ({ navigation }) => {
                 contentContainerStyle={styles.scrollViewContent}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
-                refreshControl={ // Added RefreshControl
+                refreshControl={
                     <RefreshControl
                         refreshing={isRefreshing}
-                        onRefresh={() => loadData(true)} // Pass true for refresh
-                        colors={[colors.primary]} // Spinner color (Android)
-                        tintColor={colors.primary} // Spinner color (iOS)
+                        onRefresh={() => loadData(true)}
+                        colors={[colors.primary]}
+                        tintColor={colors.primary}
                     />
                 }
             >
-                {/* Render sections only if userData is available */}
+                
                 {userData && (
                     <>
-                        {/* Use the Revised ProfileHeader and pass props */}
+                        
                         <ProfileHeader
                             userData={userData}
                             onEditProfile={handleEditProfile}
                             onOpenLink={openLink}
                         />
                         <StatsSection />
-                        {/* Pass derived props to DailyCheckInSection */}
+                        
                         <DailyCheckInSection
                             dailyCheckInData={userData.dailyCheckInData}
                             consecutiveCheckInDays={userData.consecutiveCheckInDays}
@@ -689,15 +689,15 @@ const ProfileScreen = ({ navigation }) => {
                         <SettingsSection />
                     </>
                 )}
-                 {/* Show specific message or placeholder if userData is null but not loading/error */}
-                 {!userData && !isLoading && !error && (
+                
+                {!userData && !isLoading && !error && (
                     <View style={styles.loadingContainer}>
                         <Text style={[styles.loadingText, { color: colors.textSecondary }]}>Profile data not available.</Text>
                     </View>
-                 )}
+                )}
 
 
-                {/* Footer */}
+                
                 <Text style={[styles.footerText, { color: colors.textSecondary }]}>
                     {APP_INFO.NAME} v{APP_INFO.VERSION}
                     {'\n'}
@@ -708,7 +708,7 @@ const ProfileScreen = ({ navigation }) => {
     );
 };
 
-// --- Styles (Keep existing styles, added minor spacing adjustments if needed) ---
+
 const cardShadowStyle = Platform.select({
     ios: {
         shadowColor: "#000",
@@ -724,7 +724,7 @@ const cardShadowStyle = Platform.select({
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        // backgroundColor set dynamically
+
     },
     loadingContainer: {
         flex: 1,
@@ -750,7 +750,7 @@ const styles = StyleSheet.create({
         fontWeight: FONT_WEIGHT.SEMIBOLD,
         textAlign: 'center',
         fontFamily: FONT_FAMILY,
-        // color set dynamically
+
     },
     errorDetails: {
         marginTop: SPACING.SMALL,
@@ -764,9 +764,9 @@ const styles = StyleSheet.create({
         marginTop: SPACING.XLARGE,
         paddingVertical: SPACING.MEDIUM,
         paddingHorizontal: SPACING.XLARGE,
-        borderRadius: SPACING.LARGE, // Consistent rounding
+        borderRadius: SPACING.LARGE,
         alignItems: 'center',
-        // backgroundColor set dynamically
+
     },
     retryButtonText: {
         color: colors.white,
@@ -776,62 +776,62 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        // backgroundColor set dynamically
+
     },
     scrollViewContent: {
-        paddingBottom: SPACING.XXXLARGE, // Ensure space for footer
+        paddingBottom: SPACING.XXXLARGE,
     },
-    // No inline loader needed with full screen loader + refresh control
-    // inlineLoader: { ... },
-    // --- REVISED Profile Header Styles ---
+
+
+
     headerContainerRevamped: {
         marginHorizontal: SPACING.MEDIUM,
         marginTop: SPACING.SMALL,
         marginBottom: SPACING.MEDIUM,
         borderRadius: SPACING.MEDIUM,
-        backgroundColor: colors.card, // Ensure background color is set
+        backgroundColor: colors.card,
         ...cardShadowStyle,
-        overflow: 'hidden', // Clip content like the gradient
+        overflow: 'hidden',
     },
     coverPhotoRevamped: {
-        height: 130, // Slightly taller cover
+        height: 130,
         width: '100%',
     },
     coverGradientRevamped: {
         flex: 1,
     },
     headerContentRevamped: {
-        alignItems: 'center', // Center items horizontally
+        alignItems: 'center',
         paddingBottom: SPACING.LARGE,
-        marginTop: -50, // Pulls the content up so avatar slightly overlaps bottom of cover
+        marginTop: -50,
     },
     avatarContainerRevamped: {
-        // Optional container if you need extra styling around the avatar, like another border/shadow layer
-        marginBottom: SPACING.SMALL, // Space below avatar before name
+
+        marginBottom: SPACING.SMALL,
     },
     avatarRevamped: {
         width: 90,
         height: 90,
         borderRadius: 45,
         borderWidth: 4,
-        borderColor: colors.white, // White border stands out
-        backgroundColor: colors.lightGrey, // Placeholder bg
-        // Add a subtle shadow to the avatar itself if desired
+        borderColor: colors.white,
+        backgroundColor: colors.lightGrey,
+
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.15,
         shadowRadius: 3,
-        elevation: 4, // For Android shadow
+        elevation: 4,
     },
     identityContainerRevamped: {
-        alignItems: 'center', // Center name and username
-        marginBottom: SPACING.MEDIUM, // Space below username before bio
+        alignItems: 'center',
+        marginBottom: SPACING.MEDIUM,
     },
     nameRevamped: {
         fontSize: FONT_SIZES.XLARGE,
         fontWeight: FONT_WEIGHT.BOLD,
         fontFamily: FONT_FAMILY,
-        marginBottom: SPACING.XSMALL, // Small space between name and username
+        marginBottom: SPACING.XSMALL,
     },
     usernameRevamped: {
         fontSize: FONT_SIZES.MEDIUM,
@@ -841,14 +841,14 @@ const styles = StyleSheet.create({
         fontSize: FONT_SIZES.MEDIUM,
         lineHeight: FONT_SIZES.MEDIUM * 1.4,
         fontFamily: FONT_FAMILY,
-        textAlign: 'center', // Center the bio text
-        marginHorizontal: SPACING.XLARGE, // Constrain width slightly
+        textAlign: 'center',
+        marginHorizontal: SPACING.XLARGE,
         marginBottom: SPACING.MEDIUM,
     },
     websiteLinkRevamped: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SPACING.LARGE, // Space below link before edit button
+        marginBottom: SPACING.LARGE,
     },
     websiteTextRevamped: {
         fontSize: FONT_SIZES.SMALL,
@@ -860,20 +860,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: SPACING.SMALL + 2,
-        paddingHorizontal: SPACING.XLARGE, // Make it wider
+        paddingHorizontal: SPACING.XLARGE,
         borderRadius: SPACING.LARGE,
-        // Use a lighter background for less emphasis
+
     },
     editButtonTextRevamped: {
         fontWeight: FONT_WEIGHT.SEMIBOLD,
         fontSize: FONT_SIZES.SMALL,
-        marginLeft: SPACING.SMALL, // More space next to icon
+        marginLeft: SPACING.SMALL,
         fontFamily: FONT_FAMILY,
     },
     statsContainer: {
         flexDirection: 'row',
         marginHorizontal: SPACING.MEDIUM,
-        marginTop: 0, // Adjust marginTop if needed after header change
+        marginTop: 0,
         borderRadius: SPACING.MEDIUM,
         paddingVertical: SPACING.LARGE,
         paddingHorizontal: SPACING.SMALL,

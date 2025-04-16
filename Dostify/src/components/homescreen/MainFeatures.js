@@ -19,7 +19,7 @@ const MainFeatures = React.memo(({ features }) => (
           key={index}
           style={styles.featureCard}
           activeOpacity={0.8}
-          onPress={() => console.log(`Pressed ${feature.title}`)} 
+          onPress={() => console.log(`Pressed ${feature.title}`)}
         >
           <LinearGradient
             colors={feature.gradient}
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   featureCard: {
-    width: (width - SPACING.LARGE * 2 - SPACING.MEDIUM) / 2, 
+    width: (width - SPACING.LARGE * 2 - SPACING.MEDIUM) / 2,
     backgroundColor: COLORS.white,
     borderRadius: 12,
     marginBottom: SPACING.MEDIUM,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     padding: SPACING.SMALL,
   },
   featureIconWrapper: {
-    // No specific styles needed here in this version
+
   },
   featureCardContent: {
     padding: SPACING.MEDIUM,

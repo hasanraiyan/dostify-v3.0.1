@@ -16,11 +16,11 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../constants/loginConstant';
-import  {FONT_SIZES, SPACING, APP_INFO, STORAGE_KEYS} from '../../constants/constant'
-// import { COLORS } from '../../constants/constant';
+import { FONT_SIZES, SPACING, APP_INFO, STORAGE_KEYS } from '../../constants/constant'
+
 import { useAuthContext } from '../../context/authContext';
 
-const theme = COLORS.LIGHT; // theme is correctly defined here using COLORS.LIGHT
+const theme = COLORS.LIGHT;
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -28,10 +28,10 @@ const LoginScreen = ({ navigation }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [formErrors, setFormErrors] = useState({});
 
-  // Get login function and loading/error state from useAuth hook
+
   const { login, loading, error } = useAuthContext();
 
-  // Animation values
+
   const fadeAnimLogo = useRef(new Animated.Value(0)).current;
   const fadeAnimHeader = useRef(new Animated.Value(0)).current;
   const fadeAnimSubHeader = useRef(new Animated.Value(0)).current;
@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation }) => {
     ];
 
     Animated.stagger(100, animations).start();
-  }, []); // Run once on mount
+  }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -73,7 +73,7 @@ const LoginScreen = ({ navigation }) => {
       try {
         await login(username, password);
       } catch (err) {
-        // Optionally, set a form-level error if needed.
+
         setFormErrors({ form: err.message || 'Login failed' });
       }
     }
@@ -90,7 +90,7 @@ const LoginScreen = ({ navigation }) => {
     >
       <StatusBar
         barStyle={theme === COLORS.DARK ? 'light-content' : 'dark-content'}
-        backgroundColor={theme.background} // background is used here and is defined in theme
+        backgroundColor={theme.background}
       />
 
       <ScrollView
@@ -98,7 +98,7 @@ const LoginScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Header Section */}
+        
         <Animated.View style={[styles.headerContainer, { opacity: fadeAnimLogo }]}>
           <Image
             source={require('../../../assets/android/mipmap-xxxhdpi/ic_launcher.png')}
@@ -117,13 +117,13 @@ const LoginScreen = ({ navigation }) => {
           </Text>
         </Animated.View>
 
-        {/* Form Section */}
+        
         <View style={styles.formContainer}>
-          {/* Username Input */}
+          
           <Animated.View style={[styles.inputWrapper, { opacity: fadeAnimUser }]}>
             <View style={[
-                styles.inputContainer,
-                { borderColor: formErrors.username ? theme.error : theme.border, backgroundColor: theme.inputBackground || theme.background } // background color for input is defined here
+              styles.inputContainer,
+              { borderColor: formErrors.username ? theme.error : theme.border, backgroundColor: theme.inputBackground || theme.background }
             ]}>
               <Ionicons name="person-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
               <TextInput
@@ -135,18 +135,18 @@ const LoginScreen = ({ navigation }) => {
                 autoCapitalize="none"
                 keyboardType="email-address"
                 returnKeyType="next"
-                onSubmitEditing={() => { /* TODO: Focus password input */ }}
+                onSubmitEditing={() =>{} }
               />
             </View>
             {formErrors.username && <Text style={[styles.errorText, { color: theme.error }]}>{formErrors.username}</Text>}
           </Animated.View>
 
-          {/* Password Input */}
+          
           <Animated.View style={[styles.inputWrapper, { opacity: fadeAnimPass }]}>
             <View style={[
-                styles.inputContainer,
-                { borderColor: formErrors.password ? theme.error : theme.border, backgroundColor: theme.inputBackground || theme.background } // background color for input is defined here
-             ]}>
+              styles.inputContainer,
+              { borderColor: formErrors.password ? theme.error : theme.border, backgroundColor: theme.inputBackground || theme.background }
+            ]}>
               <Ionicons name="lock-closed-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
               <TextInput
                 style={[styles.input, { color: theme.text }]}
@@ -165,11 +165,11 @@ const LoginScreen = ({ navigation }) => {
             {formErrors.password && <Text style={[styles.errorText, { color: theme.error }]}>{formErrors.password}</Text>}
           </Animated.View>
 
-          {/* Forgot Password Link */}
+          
           <Animated.View style={{ opacity: fadeAnimForgot }}>
             <TouchableOpacity
               style={styles.forgotPasswordContainer}
-              onPress={() => navigation.navigate('ForgotPassword')}
+              onPress={() => navigation.navigate('ForgotPasswordScreen')}
             >
               <Text style={[styles.forgotPasswordText, { color: theme.primary }]}>
                 Forgot Password?
@@ -177,7 +177,7 @@ const LoginScreen = ({ navigation }) => {
             </TouchableOpacity>
           </Animated.View>
 
-          {/* Form-level Error Message */}
+          
           {(formErrors.form || error) && (
             <Text style={[styles.errorText, styles.formError, { color: theme.error }]}>
               {formErrors.form || error}
@@ -185,13 +185,13 @@ const LoginScreen = ({ navigation }) => {
           )}
         </View>
 
-        {/* Button Section */}
+        
         <Animated.View style={[styles.buttonContainer, { opacity: fadeAnimButton }]}>
           <TouchableOpacity
             style={[
-                styles.loginButton,
-                { backgroundColor: loading ? theme.primaryMuted : theme.primary }, // background color for button is defined here
-                loading && styles.disabledButton
+              styles.loginButton,
+              { backgroundColor: loading ? theme.primaryMuted : theme.primary },
+              loading && styles.disabledButton
             ]}
             onPress={handleLogin}
             disabled={loading}
@@ -205,7 +205,7 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
         </Animated.View>
 
-        {/* Sign Up Navigation */}
+        
         <Animated.View style={[styles.signupContainer, { opacity: fadeAnimSignup }]}>
           <Text style={[styles.signupText, { color: theme.textSecondary }]}>
             Don't have an account?{' '}
@@ -226,7 +226,7 @@ const screenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   keyboardAvoidingContainer: {
     flex: 1,
-    backgroundColor: theme.background, // background color for the main container is defined here
+    backgroundColor: theme.background,
   },
   container: {
     flex: 1,
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     borderRadius: SPACING.SMALL,
     paddingHorizontal: SPACING.MEDIUM,
     height: 50,
-    backgroundColor: theme.inputBackground || theme.background, // background color for input container is defined here
+    backgroundColor: theme.inputBackground || theme.background,
   },
   inputIcon: {
     marginRight: SPACING.MEDIUM,
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 50,
     marginTop: SPACING.SMALL,
-    backgroundColor: theme.primary, // background color for login button is defined here (and overridden in TouchableOpacity style as well)
+    backgroundColor: theme.primary,
   },
   disabledButton: {
     opacity: 0.7,
